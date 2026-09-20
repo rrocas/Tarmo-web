@@ -9,7 +9,15 @@ import { ButtonGroup } from "@/components/ui/button-group"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
 
 export default async function Page() {
-  const initialTemplates = await getTemplates()
+  let initialTemplates: Awaited<ReturnType<typeof getTemplates>> = []
+  let error = false
+
+  try {
+    initialTemplates = await getTemplates()
+  } catch (e) {
+    console.error("Failed to load templates:", e)
+    error = true
+  }
   return (
     <div className="h-full flex flex-col">
 
@@ -48,7 +56,15 @@ export default async function Page() {
       </div>
 
       <div className="overflow-hidden flex-1">
-        <TemplatesView initial={initialTemplates} />
+        {error ? (
+          <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
+            <p className="text-muted-foreground">
+              We couldn't connect to the server. Please try again.
+            </p>
+          </div>
+        ) : (
+          <TemplatesView initial={initialTemplates} />
+        )}
       </div>
     </div>
   )

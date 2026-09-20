@@ -1,43 +1,53 @@
-import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from "@/components/ui/breadcrumb";
-import { ButtonGroup } from "@/components/ui/button-group";
-import { InputGroup, InputGroupInput, InputGroupAddon } from "@/components/ui/input-group";
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { getResources } from "@/src/features/resources/api";
-import { columns } from "@/src/features/resources/components/columns";
-import { DataTable } from "@/src/features/resources/components/data-table";
-import { Link, Plus, BookDashed, Search } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
+import Link from "next/link"
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from "@/components/ui/breadcrumb"
+import { SidebarTrigger } from "@/components/ui/sidebar"
+import { Button } from "@/components/ui/button"
+import { getResources } from "@/src/features/resources/api"
+import { columns } from "@/src/features/resources/components/columns"
+import { DataTable } from "@/src/features/resources/components/data-table"
 import { ResourceForm } from "@/src/features/resources/components/resource-form"
 
 export default async function Page() {
-    const resources = await getResources()
+  let initialResources: Awaited<ReturnType<typeof getResources>> = []
+  let error = false
 
-    return (
-        <div className="h-full flex flex-col">
-            <header className="bg-background flex sticky top-0 z-30 h-16 shrink-0 items-center gap-2 px-4 w-full">
-                <SidebarTrigger className="-ml-1" />
-                <Breadcrumb>
-                    <BreadcrumbList>
-                        <BreadcrumbItem className="hidden md:block">
-                            <BreadcrumbLink href="/">
-                                Home
-                            </BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator className="hidden md:block" />
-                        <BreadcrumbItem>
-                            <BreadcrumbPage>Resources</BreadcrumbPage>
-                        </BreadcrumbItem>
-                    </BreadcrumbList>
-                </Breadcrumb>
-            </header>
+  try {
+    initialResources = await getResources()
+  } catch (e) {
+    console.error("Failed to load resources:", e)
+    error = true
+  }
 
-            <ResourceForm />
+  return (
+    <div className="h-full flex flex-col">
+      <header className="bg-background flex sticky top-0 z-30 h-16 shrink-0 items-center gap-2 px-4 w-full">
+        <SidebarTrigger className="-ml-1" />
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem className="hidden md:block">
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator className="hidden md:block" />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Resources</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </header>
 
-            <div className="w-full p-8 h-full">
-                <DataTable columns={columns} data={resources} />
-            </div>
-        </div>
-    )
+      <ResourceForm />
+
+      <div className="w-full p-8 h-full">
+        {error ? (
+          <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
+            <p className="text-muted-foreground">
+              We couldn't connect to the server. Please try again.
+            </p>
+          </div>
+        ) : (
+          <DataTable columns={columns} data={initialResources} />
+        )}
+      </div>
+    </div>
+  )
 }
