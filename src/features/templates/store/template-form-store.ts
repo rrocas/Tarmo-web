@@ -178,15 +178,14 @@ export const useTemplateFormStore = create<TemplateFormStore>((set, get) => ({
         if (targetStage <= currentStage) return true
 
         try {
-            if (targetStage === 1) {
+            if (targetStage >= 1) {
                 TemplateFormBaseSchema.parse(formData)
-            } else if (targetStage === 2) {
-                TemplateFormBaseSchema.parse(formData)
-                TemplateStepsSchema.parse(formData.steps)
-            } else if (targetStage === 3) {
-                TemplateFormBaseSchema.parse(formData)
-                TemplateStepsSchema.parse(formData.steps)
+            }
+            if (targetStage >= 2) {
                 TemplateResourcesSchema.parse(formData.resources)
+            }
+            if (targetStage >= 3) {
+                TemplateStepsSchema.parse(formData.steps)
             }
             return true
         } catch {

@@ -17,8 +17,8 @@ import { mutate } from "swr"
 
 const STAGES = [
   { id: 0, name: "General", component: MetadataStage },
-  { id: 1, name: "Steps", component: StepsStage },
-  { id: 2, name: "Resources", component: ResourcesStage },
+  { id: 1, name: "Resources", component: ResourcesStage },
+  { id: 2, name: "Steps", component: StepsStage },
   { id: 3, name: "Overview", component: OverviewStage },
 ]
 
