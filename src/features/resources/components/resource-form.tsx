@@ -24,7 +24,7 @@ export function ResourceForm() {
             <Input name="description" placeholder="Description" className="flex-1" />
             <Input name="price" type="number" placeholder="Price * (¢)" required className="w-28" />
             <Input name="quantity" type="number" step="0.01" placeholder="Qty" required defaultValue="1" className="w-20" />
-            <Select name="unit">
+            <Select name="unit" required>
                 <SelectTrigger className="w-32">
                     <SelectValue placeholder="Unit" />
                 </SelectTrigger>
