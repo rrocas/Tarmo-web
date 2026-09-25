@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache"
 import { createResource, updateResource } from "./resources-api"
-import { resourceSchema } from "../schemas/resource-schemas"
+import { resourceSchema, priceSchema } from "../schemas/resource-schemas"
 
 export async function addResourceAction(formData: FormData) {
     // Get Form Data
@@ -13,7 +13,14 @@ export async function addResourceAction(formData: FormData) {
     const unitStr = formData.get("unit") as string
 
     // Parse to numbers
-    const price = parseInt(priceStr) || 0
+    const priceResult = priceSchema.safeParse(priceStr)
+    if (!priceResult.success) {
+        console.error("Invalid price:", priceResult.error.issues)
+        throw new Error("Price is too large")
+    }
+    const price = priceResult.data
+
+    
     const quantityValue = parseFloat(quantityStr) || 1
 
     // Create DTO
@@ -33,7 +40,7 @@ export async function addResourceAction(formData: FormData) {
 
     if (!parsed.success) {
         console.error("Invalid resource data:", parsed.error.issues)
-        return
+        throw new Error("Invalid resource data")
     }
 
     await createResource({
@@ -43,7 +50,7 @@ export async function addResourceAction(formData: FormData) {
         quantity: quantityValue,
         unit: unitStr,
     })
-
+    
     revalidatePath("/resources")
 }
 
@@ -56,7 +63,12 @@ export async function updateResourceAction(id: number, formData: FormData) {
     const unitStr = formData.get("unit") as string
 
     // Parse to numbers
-    const price = parseInt(priceStr) || 0
+    const priceResult = priceSchema.safeParse(priceStr)
+    if (!priceResult.success) {
+        console.error("Invalid price:", priceResult.error.issues)
+        throw new Error("Price is too large")
+    }
+    const price = priceResult.data
     const quantityValue = parseFloat(quantityStr) || 1
 
     // Create DTO
@@ -76,7 +88,7 @@ export async function updateResourceAction(id: number, formData: FormData) {
 
     if (!parsed.success) {
         console.error("Invalid resource data:", parsed.error.issues)
-        return
+        throw new Error("Invalid resource data")
     }
 
     await updateResource(id, {

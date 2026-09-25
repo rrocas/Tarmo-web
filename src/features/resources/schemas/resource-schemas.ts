@@ -9,4 +9,9 @@ export const resourceSchema = z.object({
     quantity: QuantitySchema
 })
 
+export const priceSchema = z.coerce
+    .number()
+    .positive()
+    .safe()
+
 export type Resource = z.infer<typeof resourceSchema>
