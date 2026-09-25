@@ -35,7 +35,7 @@ export default async function Page() {
         </Breadcrumb>
       </header>
 
-      <div className="w-full p-8 h-full">
+      <main className="p-8 flex-1 min-h-0">
         {error ? (
           <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
             <p className="text-muted-foreground">
@@ -45,11 +45,11 @@ export default async function Page() {
         ) : (
           <DataTable columns={columns} data={initialResources} />
         )}
-      </div>
+      </main>
 
-      <footer className="flex items-center justify-between py-1">
+      <footer className="shrink-0">
         <ResourceForm />
       </footer>
     </div>
   )
-}
+} 
