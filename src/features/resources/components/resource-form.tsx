@@ -3,16 +3,20 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { addResourceAction } from "../api/resource-actions"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { toast } from "sonner"
 
 export function ResourceForm() {
     const formRef = useRef<HTMLFormElement>(null)
+    const [isValid, setIsValid] = useState(false)
 
     return (
         <form
             ref={formRef}
+            onInput={(e) => {
+                setIsValid(e.currentTarget.checkValidity())
+            }}
             onSubmit={async (event) => {
                 event.preventDefault()
 
@@ -22,6 +26,7 @@ export function ResourceForm() {
                     await addResourceAction(formData)
 
                     formRef.current?.reset()
+                    setIsValid(false)
                     toast.success("Resource added to the list.")
                 } catch (error) {
                     if (error instanceof Error) {
@@ -53,7 +58,7 @@ export function ResourceForm() {
                     </SelectGroup>
                 </SelectContent>
             </Select>
-            <Button type="submit">Add</Button>
+            <Button type="submit" disabled={!isValid}>Add</Button>
         </form>
     )
 }
