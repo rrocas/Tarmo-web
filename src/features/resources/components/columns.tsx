@@ -18,27 +18,24 @@ import { formatQuantity } from "@/lib/format/quantity"
 
 export const columns: ColumnDef<Resource>[] = [
     {
-        accessorKey: "id",
-        header: "ID",
-        size: 50,
-    },
-    {
-        accessorKey: "name",
-        header: "Name",
-    },
-    {
-        accessorKey: "description",
-        header: "Description",
-    },
-    {
         accessorKey: "price",
         header: "Price",
         cell: ({ row }) => {
             const resource = row.original
             const price = (resource.price || 0) / 100
 
-            return <div className="font-medium text-right">${price} / {formatQuantity(resource.base_quantity!, resource.base_unit!)}</div>
+            return <div className="font-medium">${price} / {formatQuantity(resource.base_quantity!, resource.base_unit!)}</div>
         },
+        size: 100,
+    },
+    {
+        accessorKey: "name",
+        header: "Name",
+        size: 250,
+    },
+    {
+        accessorKey: "description",
+        header: "Description",
     },
     {
         id: "actions",
