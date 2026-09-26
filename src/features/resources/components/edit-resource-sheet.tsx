@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import {
     Sheet,
     SheetContent,
@@ -14,8 +13,10 @@ import {
 } from "@/components/ui/sheet"
 import { Resource } from "../api/resources-api"
 import { updateResourceAction } from "../api/resource-actions"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Field, FieldLabel } from "@/components/ui/field"
+import { toast } from "sonner"
 
 interface EditResourceSheetProps {
     resource: Resource
@@ -24,11 +25,8 @@ interface EditResourceSheetProps {
 
 export function EditResourceSheet({ resource, trigger }: EditResourceSheetProps) {
     const [open, setOpen] = useState(false)
-
-    const handleSubmit = async (formData: FormData) => {
-        await updateResourceAction(resource.id!, formData)
-        setOpen(false)
-    }
+    const [isValid, setIsValid] = useState(false)
+    const formRef = useRef<HTMLFormElement>(null)
 
     return (
         <Sheet open={open} onOpenChange={setOpen}>
@@ -43,26 +41,51 @@ export function EditResourceSheet({ resource, trigger }: EditResourceSheetProps)
                     </SheetDescription>
                 </SheetHeader>
                 <div className="p-4">
-                    <form action={handleSubmit} className="grid gap-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="name">Name</Label>
+                    <form
+                    ref={formRef}
+                    onSubmit={async (event) => {
+                        event.preventDefault()
+
+                        const formData = new FormData(event.currentTarget)
+
+                        try {
+                            await updateResourceAction(resource.id!, formData)
+
+                            formRef.current?.reset()
+                            setOpen(false)
+                            setIsValid(false)
+                            toast.success("Resource updated succesfully.")
+                        } catch (error) {
+                            if (error instanceof Error) {
+                                toast.error(error.message)
+                            } else {
+                                toast.error("Something went wrong.")
+                            }
+                        }
+                    }}
+                    className="grid gap-4"
+                    onInput={(e) => {
+                        setIsValid(e.currentTarget.checkValidity())
+                    }}>
+                        <Field className="grid gap-2">
+                            <FieldLabel htmlFor="name">Name</FieldLabel>
                             <Input
                                 id="name"
                                 name="name"
                                 defaultValue={resource.name}
                                 required
                             />
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="description">Description</Label>
+                        </Field>
+                        <Field className="grid gap-2">
+                            <FieldLabel htmlFor="description">Description</FieldLabel>
                             <Input
                                 id="description"
                                 name="description"
                                 defaultValue={resource.description}
                             />
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="price">Price (in cents)</Label>
+                        </Field>
+                        <Field className="grid gap-2">
+                            <FieldLabel htmlFor="price">Price (in cents)</FieldLabel>
                             <Input
                                 id="price"
                                 name="price"
@@ -70,9 +93,9 @@ export function EditResourceSheet({ resource, trigger }: EditResourceSheetProps)
                                 defaultValue={resource.price}
                                 required
                             />
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="quantity">Base Quantity</Label>
+                        </Field>
+                        <Field className="grid gap-2">
+                            <FieldLabel htmlFor="quantity">Base Quantity</FieldLabel>
                             <Input
                                 id="quantity"
                                 name="quantity"
@@ -81,9 +104,9 @@ export function EditResourceSheet({ resource, trigger }: EditResourceSheetProps)
                                 defaultValue={resource.base_quantity || 1}
                                 required
                             />
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="unit">Base Unit</Label>
+                        </Field>
+                        <Field className="grid gap-2">
+                            <FieldLabel htmlFor="unit">Base Unit</FieldLabel>
                             <Select name="unit" defaultValue={resource.base_unit}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Unit" />
@@ -100,12 +123,13 @@ export function EditResourceSheet({ resource, trigger }: EditResourceSheetProps)
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
-                        </div>
+                        </Field>
+                        <SheetFooter className="mt-4">
+                            <Button type="submit" disabled={!isValid} >Save changes</Button>
+                        </SheetFooter>
                     </form>
                 </div>
-                <SheetFooter className="mt-4">
-                    <Button type="submit">Save changes</Button>
-                </SheetFooter>
+                
             </SheetContent>
         </Sheet>
     )
