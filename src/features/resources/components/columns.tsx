@@ -2,19 +2,12 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { Resource } from "@/features/resources/api/resources-api"
-import { MoreHorizontal, Pencil, Trash } from "lucide-react"
+import { Pencil, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { EditResourceSheet } from "./edit-resource-sheet"
 import DeleteResourceButton from "./delete-resource-button"
 import { formatQuantity } from "@/lib/format/quantity"
+import { ButtonGroup } from "@/components/ui/button-group"
 
 export const columns: ColumnDef<Resource>[] = [
     {
@@ -26,7 +19,7 @@ export const columns: ColumnDef<Resource>[] = [
 
             return <div className="font-medium">${price} / {formatQuantity(resource.base_quantity!, resource.base_unit!)}</div>
         },
-        size: 100,
+        size: 125,
     },
     {
         accessorKey: "name",
@@ -44,41 +37,24 @@ export const columns: ColumnDef<Resource>[] = [
             const resource = row.original
 
             return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(resource.id?.toString() || "")}
-                        >
-                            Copy ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
+                    <ButtonGroup>
                         <EditResourceSheet
                             resource={resource}
                             trigger={
-                                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                    <Pencil className="mr-2 h-4 w-4" />
-                                    <span>Edit</span>
-                                </DropdownMenuItem>
+                                <Button variant={"ghost"} size={"icon"} onSelect={(e) => e.preventDefault()}>
+                                    <Pencil />
+                                </Button>
                             }
                         />
                         <DeleteResourceButton
                             id={resource.id!}
                             trigger={
-                                <DropdownMenuItem variant="destructive" onSelect={(e) => e.preventDefault()}>
-                                    <Trash className="mr-2 h-4 w-4" />
-                                    <span>Delete</span>
-                                </DropdownMenuItem>
+                                <Button variant="ghost" size={"icon"} onSelect={(e) => e.preventDefault()}>
+                                    <Trash />
+                                </Button>
                             }
                         />
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                    </ButtonGroup>
             )
         },
     },
