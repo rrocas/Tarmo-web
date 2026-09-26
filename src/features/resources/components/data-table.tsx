@@ -37,13 +37,13 @@ export function DataTable<TData, TValue>({
 
     return (
         <div className="w-full h-full overflow-y-auto">
-            <Table>
+            <Table className="table-fixed w-full border-collapse">
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
                                 return (
-                                    <TableHead key={header.id} style={{ width: header.column.columnDef.size || 'auto' }}>
+                                    <TableHead key={header.id} style={{ width: `${header.column.columnDef.size}%` }}>
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -64,7 +64,11 @@ export function DataTable<TData, TValue>({
                                 data-state={row.getIsSelected() && "selected"}
                             >
                                 {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id} style={{ width: cell.column.columnDef.size || 'auto' }}>
+                                    <TableCell 
+                                    key={cell.id} 
+                                    style={{ width: `${cell.column.columnDef.size}%` }}
+                                    className="overflow-hidden text-ellipsis whitespace-nowrap"
+                                    >
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}

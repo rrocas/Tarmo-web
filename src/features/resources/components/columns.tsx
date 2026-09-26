@@ -19,24 +19,26 @@ export const columns: ColumnDef<Resource>[] = [
 
             return <div className="font-medium">${price} / {formatQuantity(resource.base_quantity!, resource.base_unit!)}</div>
         },
-        size: 125,
+        size: 10,
     },
     {
         accessorKey: "name",
         header: "Name",
-        size: 250,
+        size: 17,
     },
     {
         accessorKey: "description",
         header: "Description",
+        size: 63,
     },
     {
         id: "actions",
-        size: 40,
+        size: 10,
         cell: ({ row }) => {
             const resource = row.original
 
             return (
+                <div className="flex items-center justify-end">
                     <ButtonGroup>
                         <EditResourceSheet
                             resource={resource}
@@ -55,6 +57,7 @@ export const columns: ColumnDef<Resource>[] = [
                             }
                         />
                     </ButtonGroup>
+                </div>
             )
         },
     },
