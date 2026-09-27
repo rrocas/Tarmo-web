@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Sidebar,
   SidebarContent,
@@ -12,7 +14,9 @@ import {
 import { Lexend } from 'next/font/google'
 import Link from "next/link"
 import Image from 'next/image'
-import { Box, Form } from "lucide-react"
+import { usePathname } from "next/navigation"
+import { LayoutTemplate, Box } from "lucide-react"
+import VersionTag from "./version-tag"
 
 const lexend = Lexend({
   subsets: ['latin'],
@@ -21,33 +25,28 @@ const lexend = Lexend({
 
 const data = {
   navMain: [
-    {
-      title: 'Templates',
-      url: '/templates',
-      icon: Form,
-    },
-    {
-      title: 'Resources',
-      url: '/resources',
-      icon: Box,
-    },
+    { title: 'Templates', url: '/templates', icon: LayoutTemplate },
+    { title: 'Resources', url: '/resources', icon: Box },
   ],
 }
 
 export function AppSidebar() {
+  const pathname = usePathname()
+  console.log('pathname:', pathname)
+
   return (
-    <Sidebar variant="floating">
+    <Sidebar variant="floating" collapsible="icon">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size='lg' asChild>
               <Link href='/'>
-                <div className='flex aspect-square items-center justify-center rounded-lg'>
-                  <Image src='/tarmo.png' alt='' width='34' height='34' />
+                <div className='flex aspect-square size-8 shrink-0 items-center justify-center rounded-lg'>
+                  <Image src='/tarmo.png' alt='' width={34} height={34} />
                 </div>
-                <div className='flex flex-col gap-0.5 leading-none'>
-                  <span className={`text-3xl font-bold ${lexend.className}`}>TARMO</span>
-                </div>
+                <span className={`text-4xl font-bold truncate group-data-[collapsible=icon]:hidden ${lexend.className}`}>
+                  TARMO
+                </span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -58,9 +57,10 @@ export function AppSidebar() {
           <SidebarMenu>
             {data.navMain.map((item) => {
               const Icon = item.icon
+              const isActive = pathname === item.url
               return (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild isActive={isActive}>
                     <Link href={item.url} className='font-medium'>
                       <Icon className='size-5' /> {item.title}
                     </Link>
@@ -71,7 +71,9 @@ export function AppSidebar() {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <VersionTag/>
+      </SidebarFooter>
     </Sidebar>
   )
 }
