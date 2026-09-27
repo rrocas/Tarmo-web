@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache"
 import { createResource, updateResource } from "./resources-api"
 import { resourceSchema, priceSchema } from "../schemas/resource-schemas"
 
-export async function addResourceAction(formData: FormData) {
+export async function createResourceAction(formData: FormData) {
     // Get Form Data
     const name = formData.get("name") as string
     const description = formData.get("description") as string
