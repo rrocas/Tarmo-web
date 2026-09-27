@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Resource } from "@/features/resources/api/resources-api"
 import { Pencil, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { EditResourceSheet } from "./edit-resource-sheet"
+import { ResourceSheet } from "./resource-sheet"
 import DeleteResourceButton from "./delete-resource-button"
 import { formatQuantity } from "@/lib/format/quantity"
 import { ButtonGroup } from "@/components/ui/button-group"
@@ -40,7 +40,7 @@ export const columns: ColumnDef<Resource>[] = [
             return (
                 <div className="flex items-center justify-end">
                     <ButtonGroup>
-                        <EditResourceSheet
+                        <ResourceSheet mode="edit"
                             resource={resource}
                             trigger={
                                 <Button variant={"ghost"} size={"icon"} onSelect={(e) => e.preventDefault()}>
