@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { deleteResource } from "@/features/resources/api"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
@@ -18,6 +17,7 @@ import {
 import { Trash } from "lucide-react"
 import { toast } from "sonner"
 import { mutate } from "swr"
+import { deleteResourceAction } from "../api/resource-actions"
 
 interface DeleteResourceButtonProps extends Omit<React.ComponentPropsWithoutRef<"div">, "id"> {
   id: number
@@ -31,7 +31,7 @@ const DeleteResourceButton = React.forwardRef<HTMLDivElement, DeleteResourceButt
 
     async function handleDelete() {
       try {
-        await deleteResource(id)
+        await deleteResourceAction(id)
         router.push("/resources")
         mutate("/resources")
         toast.success("Resource removed from your collection.")

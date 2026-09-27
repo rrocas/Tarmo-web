@@ -1,7 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { createResource, updateResource } from "./resources-api"
+import { createResource, deleteResource, updateResource } from "./resources-api"
 import { resourceSchema, priceSchema } from "../schemas/resource-schemas"
 
 export async function createResourceAction(formData: FormData) {
@@ -99,5 +99,10 @@ export async function updateResourceAction(id: number, formData: FormData) {
         unit: unitStr,
     })
 
+    revalidatePath("/resources")
+}
+
+export async function deleteResourceAction(id: number) {
+    await deleteResource(id)
     revalidatePath("/resources")
 }

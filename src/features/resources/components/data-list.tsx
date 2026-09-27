@@ -1,7 +1,5 @@
 "use client"
 
-import { useRouter } from "next/navigation"
-import { toast } from "sonner"
 import { MoreVertical, Pencil, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -11,8 +9,8 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Resource } from "../api/resources-api"
-import { deleteResource } from "../api/resources-api"
 import { ResourceSheet } from "./resource-sheet"
+import DeleteResourceButton from "./delete-resource-button"
 import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemTitle } from "@/components/ui/item"
 import { formatQuantity } from "@/lib/format/quantity"
 
@@ -21,22 +19,6 @@ interface ResourceListProps {
 }
 
 export function DataList({ data }: ResourceListProps) {
-    const router = useRouter()
-
-    async function handleDelete(id: number) {
-        try {
-            await deleteResource(id)
-            toast.success("Resource deleted successfully.")
-            router.refresh()
-        } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message)
-            } else {
-                toast.error("Something went wrong.")
-            }
-        }
-    }
-
     return (
         <ItemGroup className="h-full overflow-y-auto">
             {data.map((resource) => {
@@ -70,13 +52,18 @@ export function DataList({ data }: ResourceListProps) {
                                             </DropdownMenuItem>
                                         }
                                     />
-                                    <DropdownMenuItem
-                                        variant="destructive"
-                                        onSelect={() => handleDelete(resource.id!)}
-                                    >
-                                        <Trash />
-                                        Delete
-                                    </DropdownMenuItem>
+                                    <DeleteResourceButton
+                                        id={resource.id!}
+                                        trigger={
+                                            <DropdownMenuItem
+                                                variant="destructive"
+                                                onSelect={(e) => e.preventDefault()}
+                                            >
+                                                <Trash />
+                                                Delete
+                                            </DropdownMenuItem>
+                                        }
+                                    />
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </ItemActions>
