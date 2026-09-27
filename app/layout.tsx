@@ -27,7 +27,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               {children}
             </main>
             <Toaster position="top-center" />
-            <VersionTag />
           </SidebarProvider>
         </ThemeProvider>
       </body>
