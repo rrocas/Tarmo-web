@@ -58,7 +58,7 @@ export default async function Page() {
         </InputGroup>
       </div>
 
-      <main className="pt-0 p-2 sm:p-8 flex-1 min-h-0">
+      <main className="pt-0 p-2 sm:p-8 flex-1 min-h-0 flex flex-col">
         {error ? (
           <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
             <p className="text-muted-foreground">
@@ -66,11 +66,12 @@ export default async function Page() {
             </p>
           </div>
         ) : (
-          <><div className="hidden lg:block">
+          <>
+            <div className="hidden lg:block flex-1 min-h-0">
               <DataTable columns={columns} data={initialResources} />
             </div>
-            <div className="block lg:hidden">
-              <DataList data={initialResources}/>
+            <div className="lg:hidden flex-1 min-h-0">
+              <DataList data={initialResources} />
             </div>
           </>
         )}
