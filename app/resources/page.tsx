@@ -51,7 +51,7 @@ export default async function Page() {
           />
         </ButtonGroup>
         <InputGroup className="md:w-2/3 lg:w-1/3">
-          <InputGroupInput placeholder="Search..." />
+          <InputGroupInput placeholder="Search..." disabled/>
           <InputGroupAddon>
             <Search />
           </InputGroupAddon>
