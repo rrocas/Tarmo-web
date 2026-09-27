@@ -19,17 +19,17 @@ export const columns: ColumnDef<Resource>[] = [
 
             return <div className="font-medium">${price} / {formatQuantity(resource.base_quantity!, resource.base_unit!)}</div>
         },
-        size: 10,
+        size: 20,
     },
     {
         accessorKey: "name",
         header: "Name",
-        size: 17,
+        size: 20,
     },
     {
         accessorKey: "description",
         header: "Description",
-        size: 63,
+        size: 50,
     },
     {
         id: "actions",

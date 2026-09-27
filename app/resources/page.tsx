@@ -9,6 +9,7 @@ import { ButtonGroup } from "@/components/ui/button-group"
 import { Plus, Search } from "lucide-react"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
 import { ResourceSheet } from "@/src/features/resources/components/resource-sheet"
+import { DataList } from "@/src/features/resources/components/data-list"
 
 export default async function Page() {
   let initialResources: Awaited<ReturnType<typeof getResources>> = []
@@ -65,7 +66,13 @@ export default async function Page() {
             </p>
           </div>
         ) : (
-          <DataTable columns={columns} data={initialResources} />
+          <><div className="hidden lg:block">
+              <DataTable columns={columns} data={initialResources} />
+            </div>
+            <div className="block lg:hidden">
+              <DataList data={initialResources}/>
+            </div>
+          </>
         )}
       </main>
     </div>
