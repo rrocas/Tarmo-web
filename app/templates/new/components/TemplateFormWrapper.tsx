@@ -1,7 +1,6 @@
 "use client"
 
 import { useTemplateFormStore } from "@/features/templates/store/template-form-store"
-import StepForm from "@/features/templates/components/step-form"
 import { StepsStage } from "./stages/StepsStage"
 import { OverviewStage } from "./stages/OverviewStage"
 import { ResourcesStage } from "./stages/ResourcesStage"
@@ -10,10 +9,10 @@ import { Progress } from "@/components/ui/progress"
 import { ArrowLeft, ArrowRight, Check } from "lucide-react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { createTemplate, updateTemplate } from "@/features/templates/api"
 import { MetadataStage } from "./stages/MetadataStage"
 import { toast } from "sonner"
 import { mutate } from "swr"
+import { createTemplateAction, updateTemplateAction } from "@/src/features/templates/api/templates-actions"
 
 const STAGES = [
   { id: 0, name: "General", component: MetadataStage },
@@ -55,14 +54,14 @@ export function TemplateFormWrapper({ mode = 'create', templateId }: TemplateFor
       const templateData = getTemplateData()
 
       if (mode === 'edit' && templateId) {
-        await updateTemplate(templateId, templateData)
+        await updateTemplateAction(templateId, templateData)
         router.push(`/templates/${templateId}`)
         mutate(`/templates/${templateId}`)
         mutate("/templates")
         resetForm()
         toast.success("Template updated successfully!")
       } else {
-        await createTemplate(templateData)
+        await createTemplateAction(templateData)
         router.push("/templates")
         mutate("/templates")
         resetForm()
