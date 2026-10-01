@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowLeft, PencilLine } from "lucide-react"
 import DeleteTemplateButton from "@/features/templates/components/delete-template-button"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 export default async function TemplatePage({
   params,
@@ -57,17 +57,18 @@ export default async function TemplatePage({
         </Button>
 
 
-
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button asChild variant="ghost">
-              <Link href={`/templates/${id}/edit`}><PencilLine /></Link>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Edit</p>
-          </TooltipContent>
-        </Tooltip>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button asChild variant="ghost">
+                <Link href={`/templates/${id}/edit`}><PencilLine /></Link>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Edit</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
         <DeleteTemplateButton id={id} showButton={true} />
 

@@ -20,25 +20,22 @@ import DeleteTemplateButton from "./delete-template-button"
 
 const fetcher = () => getTemplates()
 
-export default function TemplatesView({ initial }: { initial: TemplateListItem[] }) {
+export default function TemplatesView({
+  initial,
+  query = "",
+}: {
+  initial: TemplateListItem[]
+  query?: string
+}) {
   const { data } = useSWR("/templates", fetcher, {
     fallbackData: initial,
     refreshInterval: 5000,
   })
 
-  const containerVariants = {
-    hidden: {},
-    show: {
-      transition: {
-        staggerChildren: 0.05,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-  }
+  const term = query.trim().toLowerCase()
+  const filtered = data.filter((t) =>
+    (t.name ?? "").toLowerCase().includes(term)
+  )
 
   return (
     <div className="h-full w-full flex flex-col p-4 pt-2 overflow-hidden">
@@ -62,17 +59,11 @@ export default function TemplatesView({ initial }: { initial: TemplateListItem[]
           </Empty>
         </div>
       ) : (
-        <motion.div
-          className="overflow-y-auto overflow-x-hidden"
-          variants={containerVariants}
-          initial="hidden"
-          animate="show"
-        >
+        <div className="overflow-y-auto overflow-x-hidden">
           <ItemGroup className="grid gap-4 grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 auto-rows-min p-1">
-            {data.map((template) => (
+            {filtered.map((template) => (
               <motion.div
                 key={template.id}
-                variants={itemVariants}
                 whileHover={{ scale: 1.03, zIndex: 10 }}
                 whileTap={{ scale: 0.97 }}
                 className="relative"
@@ -111,7 +102,7 @@ export default function TemplatesView({ initial }: { initial: TemplateListItem[]
               </motion.div>
             ))}
           </ItemGroup>
-        </motion.div>
+        </div>
       )}
     </div>
   )
