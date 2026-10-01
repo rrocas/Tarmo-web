@@ -37,7 +37,7 @@ export default function Page() {
         <div className="grid w-full max-w-3xl gap-4 md:grid-cols-3">
           {actions.map(({ title, description, href, icon: Icon }) => (
             <Link key={title} href={href}>
-              <Card className="items-center gap-2 py-8 text-center transition-colors hover:bg-accent">
+              <Card className="items-center gap-2 border border-transparent py-8 text-center transition-colors hover:border-accent">
                 <Icon className="size-10 stroke-1" />
                 <span className="font-medium">{title}</span>
                 <span className="text-sm text-muted-foreground opacity-70">

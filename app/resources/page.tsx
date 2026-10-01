@@ -44,7 +44,7 @@ export default async function Page() {
           <ResourceSheet
             mode="create"
             trigger={
-              <Button>
+              <Button className="cursor-pointer">
                 <Plus />
               </Button>
             }

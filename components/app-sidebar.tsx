@@ -42,7 +42,7 @@ export function AppSidebar() {
             <SidebarMenuButton size='lg' asChild>
               <Link href='/'>
                 <div className='flex aspect-square size-8 shrink-0 items-center justify-center rounded-lg'>
-                  <Image src='/tarmo.png' alt='' width={34} height={34} />
+                  <Image src='/tarmo.ico' alt='' width={34} height={34} />
                 </div>
                 <span className={`text-4xl font-bold truncate group-data-[collapsible=icon]:hidden ${lexend.className}`}>
                   TARMO
