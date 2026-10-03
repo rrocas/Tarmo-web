@@ -6,7 +6,7 @@ export const resourceSchema = z.object({
     name: z.string(),
     description: z.string().nullable(),
     price: z.number().positive(),
-    quantity: QuantitySchema
+    quantity: QuantitySchema,
 })
 
 export const priceSchema = z.coerce

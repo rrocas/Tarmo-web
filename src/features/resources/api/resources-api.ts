@@ -1,76 +1,52 @@
-import type { components } from "@/lib/api/types.gen"
+import type {
+    ResourcesCreateResourceRequestDto,
+    ResourcesResourceJsonResponseDto,
+    ResourcesUpdateResourceRequestDto,
+} from "@/lib/api/types.gen"
+import {
+    deleteResourcesById,
+    getResources as sdkGetResources,
+    postResources,
+    putResourcesById,
+} from "@/lib/api/sdk.gen"
 import { logger } from "@/lib/logger"
 
-type Schema = components["schemas"]
-
-export type Resource = Schema["ResourceJSONResponseDTO"]
-export type CreateResourceRequest = Schema["CreateResourceRequestDTO"]
-export type UpdateResourceRequest = Schema["UpdateResourceRequestDTO"]
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:9136"
-
-const headers = { "Content-Type": "application/json" }
-
-export async function getResources(): Promise<Resource[]> {
-    logger.info("getResources: start")
+export type Resource = ResourcesResourceJsonResponseDto
+export type CreateResourceRequest = ResourcesCreateResourceRequestDto
+export type UpdateResourceRequest = ResourcesUpdateResourceRequestDto
+async function run<T>(name: string, fn: () => Promise<T>): Promise<T> {
+    logger.info(`${name}: start`)
     try {
-        const res = await fetch(`${API_URL}/resources`, {
-            cache: "no-store",
-            headers,
-        })
-        if (!res.ok) throw new Error("Could not connect to the API")
-        return await res.json()
+        const result = await fn()
+        logger.info(`${name}: success`)
+        return result
     } catch (error) {
-        logger.error("getResources: failed", error)
+        logger.error(`${name}: failed`, error)
         throw error
     }
 }
 
-export async function createResource(resource: CreateResourceRequest) {
-    logger.info("createResource: start")
-    try {
-        const res = await fetch(`${API_URL}/resources`, {
-            method: "POST",
-            headers,
-            body: JSON.stringify(resource),
-            cache: "no-store",
-        })
-        if (!res.ok) throw new Error("Could not create resource")
-        logger.info("createResource: success")
-    } catch (error) {
-        logger.error("createResource: failed", { resource, error })
-        throw error
-    }
+export function getResources(): Promise<Resource[]> {
+    return run("getResources", async () => {
+        const { data } = await sdkGetResources({ throwOnError: true })
+        return data
+    })
 }
 
-export async function deleteResource(id: number) {
-    logger.info("deleteResource: start")
-    try {
-        const res = await fetch(`${API_URL}/resources/${id}`, {
-            method: "DELETE",
-            headers,
-            cache: "no-store",
-        })
-        if (!res.ok) throw new Error("Could not delete resource")
-        logger.info("deleteResource: success")
-    } catch (error) {
-        logger.error("deleteResource: failed", { id, error })
-        throw error
-    }
+export function createResource(resource: CreateResourceRequest) {
+    return run("createResource", async () => {
+        await postResources({ body: resource, throwOnError: true })
+    })
 }
-export async function updateResource(id: number, resource: UpdateResourceRequest) {
-    logger.info("updateResource: start")
-    try {
-        const res = await fetch(`${API_URL}/resources/${id}`, {
-            method: "PUT",
-            headers,
-            body: JSON.stringify({ ...resource, id }),
-            cache: "no-store",
-        })
-        if (!res.ok) throw new Error("Could not update resource")
-        logger.info("updateResource: success")
-    } catch (error) {
-        logger.error("updateResource: failed", { id, resource, error })
-        throw error
-    }
+
+export function updateResource(id: number, resource: UpdateResourceRequest) {
+    return run("updateResource", async () => {
+        await putResourcesById({ path: { id }, body: { ...resource, id }, throwOnError: true })
+    })
+}
+
+export function deleteResource(id: number) {
+    return run("deleteResource", async () => {
+        await deleteResourcesById({ path: { id }, throwOnError: true })
+    })
 }
