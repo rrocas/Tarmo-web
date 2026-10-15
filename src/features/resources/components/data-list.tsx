@@ -1,6 +1,6 @@
 "use client"
 
-import { MoreVertical, Pencil, Trash } from "lucide-react"
+import { Info, MoreVertical, Pencil, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
@@ -13,6 +13,9 @@ import { ResourceSheet } from "./resource-sheet"
 import DeleteResourceButton from "./delete-resource-button"
 import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemTitle } from "@/components/ui/item"
 import { formatQuantity } from "@/lib/format/quantity"
+import { formatDate } from "@/lib/format/date"
+import { ButtonGroup } from "@/components/ui/button-group"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
 interface ResourceListProps {
     data: Resource[]
@@ -34,6 +37,19 @@ export function DataList({ data }: ResourceListProps) {
                             <div className="font-medium">
                                 ${price} / {formatQuantity(resource.base_quantity!, resource.base_unit!)}
                             </div>
+
+                            <ButtonGroup>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button variant={"ghost"} size={"icon"}><Info /></Button>
+                                </PopoverTrigger>
+                                <PopoverContent>
+                                    <div className="space-y-2">
+                                        <p>Created: {formatDate(resource.created_at)}</p>
+                                        <p>Last updated: {formatDate(resource.updated_at)}</p>
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
 
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
@@ -64,8 +80,10 @@ export function DataList({ data }: ResourceListProps) {
                                             </DropdownMenuItem>
                                         }
                                     />
+                                    
                                 </DropdownMenuContent>
                             </DropdownMenu>
+                            </ButtonGroup>
                         </ItemActions>
                     </Item>
                 )

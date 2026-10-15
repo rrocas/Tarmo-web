@@ -2,12 +2,14 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { Resource } from "@/features/resources/api/resources-api"
-import { Pencil, Trash } from "lucide-react"
+import { Info, Pencil, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ResourceSheet } from "./resource-sheet"
 import DeleteResourceButton from "./delete-resource-button"
 import { formatQuantity } from "@/lib/format/quantity"
 import { ButtonGroup } from "@/components/ui/button-group"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { formatDate } from "@/lib/format/date"
 
 export const columns: ColumnDef<Resource>[] = [
     {
@@ -29,11 +31,11 @@ export const columns: ColumnDef<Resource>[] = [
     {
         accessorKey: "description",
         header: "Description",
-        size: 50,
+        size: 46,
     },
     {
         id: "actions",
-        size: 10,
+        size: 14,
         cell: ({ row }) => {
             const resource = row.original
 
@@ -56,6 +58,17 @@ export const columns: ColumnDef<Resource>[] = [
                                 </Button>
                             }
                         />
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant={"ghost"} size={"icon"}><Info /></Button>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                                <div className="space-y-2">
+                                    <p>Created: {formatDate(resource.created_at)}</p>
+                                    <p>Last updated: {formatDate(resource.updated_at)}</p>
+                                </div>
+                            </PopoverContent>
+                        </Popover>
                     </ButtonGroup>
                 </div>
             )
