@@ -3,9 +3,9 @@ import { logger } from "@/lib/logger"
 
 type Schema = components["schemas"]
 
-export type Resource = Schema["ResourceJSONResponseDTO"]
-export type CreateResourceRequest = Schema["CreateResourceRequestDTO"]
-export type UpdateResourceRequest = Schema["UpdateResourceRequestDTO"]
+export type Resource = Schema["resources.ResourceJSONResponseDTO"]
+export type CreateResourceRequest = Schema["resources.CreateResourceRequestDTO"]
+export type UpdateResourceRequest = Schema["resources.UpdateResourceRequestDTO"]
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:9136"
 
