@@ -57,18 +57,16 @@ export default async function TemplatePage({
         </Button>
 
 
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button asChild variant="ghost">
-                <Link href={`/templates/${id}/edit`}><PencilLine /></Link>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Edit</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button asChild variant="ghost">
+              <Link href={`/templates/${id}/edit`}><PencilLine /></Link>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Edit</p>
+          </TooltipContent>
+        </Tooltip>
 
         <DeleteTemplateButton id={id} showButton={true} />
 

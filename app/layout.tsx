@@ -7,6 +7,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/sonner"
 import VersionTag from "@/components/version-tag";
 import { cn } from "@/lib/utils";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const publicSansHeading = Public_Sans({subsets:['latin'],variable:'--font-heading'});
 
@@ -25,11 +26,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <SidebarProvider>
-            <AppSidebar />
-            <main className="h-dvh w-full relative overflow-hidden">
-              {children}
-            </main>
-            <Toaster position="top-center" />
+            <TooltipProvider>
+              <AppSidebar />
+              <main className="h-dvh w-full relative overflow-hidden">
+                {children}
+              </main>
+              <Toaster position="top-center" />
+            </TooltipProvider>
           </SidebarProvider>
         </ThemeProvider>
       </body>
