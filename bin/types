@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+npx swagger2openapi ../engine/docs/rest_api/swagger.json   -o ./openapi.json
+npx openapi-typescript ./openapi.json -o ./lib/api/types.gen.ts

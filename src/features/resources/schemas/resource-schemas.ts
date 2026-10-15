@@ -6,7 +6,9 @@ export const resourceSchema = z.object({
     name: z.string(),
     description: z.string().nullable(),
     price: z.number().positive(),
-    quantity: QuantitySchema
+    quantity: QuantitySchema,
+    createdAt: z.iso.datetime(),
+    updatedAt: z.iso.datetime()
 })
 
 export const priceSchema = z.coerce

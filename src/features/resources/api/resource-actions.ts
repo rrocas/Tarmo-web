@@ -2,103 +2,61 @@
 
 import { revalidatePath } from "next/cache"
 import { createResource, deleteResource, updateResource } from "./resources-api"
-import { resourceSchema, priceSchema } from "../schemas/resource-schemas"
+import type {
+    CreateResourceRequest,
+    UpdateResourceRequest,
+} from "./resources-api"
+import { priceSchema } from "../schemas/resource-schemas"
 
-export async function createResourceAction(formData: FormData) {
-    // Get Form Data
-    const name = formData.get("name") as string
-    const description = formData.get("description") as string
-    const priceStr = formData.get("price") as string
-    const quantityStr = formData.get("quantity") as string
-    const unitStr = formData.get("unit") as string
+function getResourceFormData(formData: FormData) {
+    const name = String(formData.get("name") ?? "").trim()
+    const description = String(formData.get("description") ?? "").trim()
+    const priceStr = String(formData.get("price") ?? "")
+    const quantityStr = String(formData.get("quantity") ?? "")
+    const unit = String(formData.get("unit") ?? "").trim()
 
-    // Parse to numbers
     const priceResult = priceSchema.safeParse(priceStr)
+
     if (!priceResult.success) {
-        console.error("Invalid price:", priceResult.error.issues)
-        throw new Error("Price is too large")
-    }
-    const price = priceResult.data
-
-    
-    const quantityValue = parseFloat(quantityStr) || 1
-
-    // Create DTO
-    const resourceInput = {
-        id: 0,
-        name,
-        description: description || null,
-        price,
-        quantity: {
-            value: quantityValue,
-            unit: { name: unitStr }
-        }
+        throw new Error("Invalid price")
     }
 
-    // Safe parse DTO
-    const parsed = resourceSchema.safeParse(resourceInput)
+    const quantity = Number(quantityStr)
 
-    if (!parsed.success) {
-        console.error("Invalid resource data:", parsed.error.issues)
-        throw new Error("Invalid resource data")
+    if (!Number.isFinite(quantity) || quantity <= 0) {
+        throw new Error("Invalid quantity")
     }
 
-    await createResource({
+    if (!name || !unit) {
+        throw new Error("Name and unit are required")
+    }
+
+    return {
         name,
         description,
-        price,
-        quantity: quantityValue,
-        unit: unitStr,
-    })
-    
+        price: priceResult.data,
+        quantity,
+        unit,
+    }
+}
+
+export async function createResourceAction(formData: FormData) {
+    const input: CreateResourceRequest = getResourceFormData(formData)
+
+    await createResource(input)
     revalidatePath("/resources")
 }
 
-export async function updateResourceAction(id: number, formData: FormData) {
-    // Get Form Data
-    const name = formData.get("name") as string
-    const description = formData.get("description") as string
-    const priceStr = formData.get("price") as string
-    const quantityStr = formData.get("quantity") as string
-    const unitStr = formData.get("unit") as string
-
-    // Parse to numbers
-    const priceResult = priceSchema.safeParse(priceStr)
-    if (!priceResult.success) {
-        console.error("Invalid price:", priceResult.error.issues)
-        throw new Error("Price is too large")
-    }
-    const price = priceResult.data
-    const quantityValue = parseFloat(quantityStr) || 1
-
-    // Create DTO
-    const resourceInput = {
-        id: 0,
-        name,
-        description: description || null,
-        price,
-        quantity: {
-            value: quantityValue,
-            unit: { name: unitStr }
-        }
+export async function updateResourceAction(
+    id: number,
+    formData: FormData,
+) {
+    const input: UpdateResourceRequest = {
+        ...getResourceFormData(formData),
+        id,
     }
 
-    // Safe parse DTO
-    const parsed = resourceSchema.safeParse(resourceInput)
-
-    if (!parsed.success) {
-        console.error("Invalid resource data:", parsed.error.issues)
-        throw new Error("Invalid resource data")
-    }
-
-    await updateResource(id, {
-        name,
-        description,
-        price,
-        quantity: quantityValue,
-        unit: unitStr,
-    })
-
+    await updateResource(id, input)
     revalidatePath("/resources")
 }
 
