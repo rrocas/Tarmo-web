@@ -5,12 +5,17 @@ import {
     createTemplate,
     updateTemplate,
     deleteTemplate,
+    getTemplates,
 } from "./templates-api"
 import {
     CreateTemplateSchema,
     type CreateTemplateRequest,
     type UpdateTemplateRequest,
 } from "../schemas/template-schemas"
+
+export async function getTemplatesAction() {
+    return getTemplates()
+}
 
 export async function createTemplateAction(template: CreateTemplateRequest) {
     const parsed = CreateTemplateSchema.safeParse(template)

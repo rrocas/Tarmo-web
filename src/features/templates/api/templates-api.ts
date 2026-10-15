@@ -3,10 +3,10 @@ import { logger } from "@/lib/logger"
 import { generateMockTemplates } from "./templates-mock"
 
 type Schema = components["schemas"]
-export type Template = Schema["TemplateJSONResponseDTO"]
-export type TemplateListItem = Schema["TemplateListJSONResponseDTO"]
-export type CreateTemplateRequest = Schema["CreateTemplateRequestDTO"]
-export type UpdateTemplateRequest = Schema["UpdateTemplateRequestDTO"]
+export type Template = Schema["templates.TemplateJSONResponseDTO"]
+export type TemplateListItem = Schema["templates.TemplateListJSONResponseDTO"]
+export type CreateTemplateRequest = Schema["templates.CreateTemplateRequestDTO"]
+export type UpdateTemplateRequest = Schema["templates.UpdateTemplateRequestDTO"]
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:9136"
 const mode = process.env.NEXT_PUBLIC_API_MODE ?? "real"

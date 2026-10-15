@@ -8,13 +8,14 @@ import { getResources } from "@/features/resources/api/resources-api"
 import useSWR from "swr"
 import { calculateCost, formatCurrency } from "@/features/shared/utils/unit-conversion"
 import { formatQuantity } from "@/lib/format/quantity"
+import { getResourcesAction } from "../../resources/api/resource-actions"
 
 interface TemplateDetailViewProps {
   template: Template
 }
 
 export function TemplateDetailView({ template }: TemplateDetailViewProps) {
-  const { data: resources = [] } = useSWR("/resources", getResources)
+  const { data: resources = [] } = useSWR("/resources", getResourcesAction)
 
   let totalCost = 0
   const resourceCosts = template.resources?.map(ref => {
@@ -76,7 +77,7 @@ export function TemplateDetailView({ template }: TemplateDetailViewProps) {
   }
 
   return (
-    <div className="h-full w-full p-2 grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8 overflow-y-auto md:overflow-hidden">
+    <div className="h-full w-full p-0 grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8 overflow-y-auto md:overflow-hidden">
       <div className="p-2 min-h-0 flex flex-col gap-6 overflow-hidden">
         <div className="space-y-3 shrink-0">
           <div className="flex justify-between items-start">

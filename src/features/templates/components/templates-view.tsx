@@ -17,8 +17,9 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/components/ui/context-menu"
 import DeleteTemplateButton from "./delete-template-button"
+import { getTemplatesAction } from "../api/templates-actions"
 
-const fetcher = () => getTemplates()
+const fetcher = () => getTemplatesAction()
 
 export default function TemplatesView({
   initial,

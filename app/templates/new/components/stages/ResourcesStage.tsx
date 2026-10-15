@@ -15,10 +15,11 @@ import { Badge } from "@/components/ui/badge"
 import { format } from "path"
 import { formatPrice } from "@/lib/format/price"
 import { formatQuantity } from "@/lib/format/quantity"
+import { getResourcesAction } from "@/src/features/resources/api/resource-actions"
 
 export function ResourcesStage() {
     const { formData, addResource, removeResource, updateResource } = useTemplateFormStore()
-    const { data: resources = [] } = useSWR("/resources", getResources)
+    const { data: resources = [] } = useSWR("/resources", getResourcesAction)
     const [editingIndex, setEditingIndex] = useState<number | null>(null)
 
     const selectedResources = formData.resources || []

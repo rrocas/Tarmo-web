@@ -16,8 +16,8 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import { getResources } from "@/features/resources/api/resources-api"
 import useSWR from "swr"
+import { getResourcesAction } from "../api/resource-actions"
 
 interface ResourceSelectorProps {
     onSelect: (resourceId: number) => void
@@ -26,7 +26,7 @@ interface ResourceSelectorProps {
 
 export function ResourceSelector({ onSelect, excludeIds = [] }: ResourceSelectorProps) {
     const [open, setOpen] = React.useState(false)
-    const { data: resources = [] } = useSWR("/resources", getResources)
+    const { data: resources = [] } = useSWR("/resources", getResourcesAction)
 
     const filteredResources = resources.filter(
         (resource) => !excludeIds.includes(resource.id!)

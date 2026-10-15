@@ -1,7 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { createResource, deleteResource, updateResource } from "./resources-api"
+import { createResource, deleteResource, getResources, updateResource } from "./resources-api"
 import type {
     CreateResourceRequest,
     UpdateResourceRequest,
@@ -38,6 +38,10 @@ function getResourceFormData(formData: FormData) {
         quantity,
         unit,
     }
+}
+
+export async function getResourcesAction() {
+    return getResources()
 }
 
 export async function createResourceAction(formData: FormData) {

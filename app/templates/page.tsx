@@ -1,14 +1,14 @@
-import { getTemplates } from "@/features/templates/api"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { TemplatesBrowser } from "@/features/templates/components/browser"
+import { getTemplatesAction } from "@/src/features/templates/api/templates-actions"
 
 export default async function Page() {
-  let initialTemplates: Awaited<ReturnType<typeof getTemplates>> = []
+  let initialTemplates: Awaited<ReturnType<typeof getTemplatesAction>> = []
   let error = false
 
   try {
-    initialTemplates = await getTemplates()
+    initialTemplates = await getTemplatesAction()
   } catch (e) {
     console.error("Failed to load templates:", e)
     error = true
