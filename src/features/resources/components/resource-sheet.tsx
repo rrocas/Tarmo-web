@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sheet"
 import { Resource } from "../api/resources-api"
 import { createResourceAction, updateResourceAction } from "../api/resource-actions"
-import { useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 import { ResourceFormFields } from "./form-fields"
 import { mutate } from "swr"
@@ -39,6 +39,21 @@ export function ResourceSheet({ mode, resource, trigger }: ResourceSheetProps) {
     const [isValid, setIsValid] = useState(false)
     const formRef = useRef<HTMLFormElement>(null)
     const copy = COPY[mode]
+
+    const validate = useCallback(() => {
+        setIsValid(formRef.current?.checkValidity() ?? false)
+    }, [])
+
+    // Al abrir (sobre todo en modo edit) el form ya puede ser válido
+    // aunque el usuario no haya tocado nada.
+    useEffect(() => {
+        if (!open) {
+            setIsValid(false)
+            return
+        }
+        const id = requestAnimationFrame(validate)
+        return () => cancelAnimationFrame(id)
+    }, [open, resource, validate])
 
     return (
         <Sheet open={open} onOpenChange={setOpen}>
@@ -68,9 +83,7 @@ export function ResourceSheet({ mode, resource, trigger }: ResourceSheetProps) {
 
                                 await mutate("resources")
 
-                                formRef.current?.reset()
                                 setOpen(false)
-                                setIsValid(false)
                                 toast.success(copy.success)
                             } catch (error) {
                                 if (error instanceof Error) {
@@ -81,11 +94,14 @@ export function ResourceSheet({ mode, resource, trigger }: ResourceSheetProps) {
                             }
                         }}
                         className="grid gap-4"
-                        onInput={(e) => {
-                            setIsValid(e.currentTarget.checkValidity())
-                        }}
+                        onInput={validate}
+                        onChange={validate}
                     >
-                        <ResourceFormFields resource={resource} />
+                        <ResourceFormFields
+                            key={resource?.id ?? "new"}
+                            resource={resource}
+                            onValueChange={validate}
+                        />
                         <SheetFooter className="mt-4">
                             <Button type="submit" disabled={!isValid}>Save changes</Button>
                         </SheetFooter>

@@ -13,9 +13,10 @@ import { Resource } from "../api/resources-api"
 
 interface ResourceFormFieldsProps {
     resource?: Resource
+    onValueChange?: () => void
 }
 
-export function ResourceFormFields({ resource }: ResourceFormFieldsProps) {
+export function ResourceFormFields({ resource, onValueChange }: ResourceFormFieldsProps) {
     return (
         <>
             <Field className="grid gap-2">
@@ -52,13 +53,13 @@ export function ResourceFormFields({ resource }: ResourceFormFieldsProps) {
                     name="quantity"
                     type="number"
                     step="0.01"
-                    defaultValue={resource?.base_quantity || 1}
+                    defaultValue={resource?.base_quantity ?? 1}
                     required
                 />
             </Field>
             <Field className="grid gap-2">
                 <FieldLabel htmlFor="unit">Base Unit</FieldLabel>
-                <Select name="unit" defaultValue={resource?.base_unit}>
+                <Select name="unit" defaultValue={resource?.base_unit} required>
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder="Unit" />
                     </SelectTrigger>
