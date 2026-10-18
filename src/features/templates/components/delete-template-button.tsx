@@ -18,6 +18,7 @@ import {
 import { Trash } from "lucide-react"
 import { toast } from "sonner"
 import { mutate } from "swr"
+import { deleteTemplateAction } from "../api/templates-actions"
 
 interface DeleteTemplateButtonProps extends Omit<React.ComponentPropsWithoutRef<"div">, "id"> {
   id: number
@@ -31,7 +32,7 @@ const DeleteTemplateButton = React.forwardRef<HTMLDivElement, DeleteTemplateButt
 
     async function handleDelete() {
       try {
-        await deleteTemplate(id)
+        await deleteTemplateAction(id)
         router.push("/templates")
         mutate("/templates")
         toast.success("Template removed from your collection.")
