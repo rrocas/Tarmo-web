@@ -18,6 +18,9 @@ import { usePathname } from "next/navigation"
 import { LayoutTemplate, Box } from "lucide-react"
 import VersionTag from "./version-tag"
 
+import { useEffect } from "react"
+import { useSidebar } from "@/components/ui/sidebar"
+
 const lexend = Lexend({
   subsets: ['latin'],
   weight: ['400'],
@@ -32,7 +35,11 @@ const data = {
 
 export function AppSidebar() {
   const pathname = usePathname()
-  console.log('pathname:', pathname)
+  const { setOpenMobile } = useSidebar()
+
+  useEffect(() => {
+    setOpenMobile(false)
+  }, [pathname, setOpenMobile])
 
   return (
     <Sidebar variant="floating" collapsible="icon">
