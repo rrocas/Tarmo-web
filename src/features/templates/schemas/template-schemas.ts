@@ -9,12 +9,12 @@ import { StepSchema } from './step-schemas'
 type Schema = components['schemas']
 
 // Response types from the API
-export type TemplateResponse = Schema['TemplateJSONResponseDTO']
-export type TemplateListItemResponse = Schema['TemplateListJSONResponseDTO']
+export type TemplateResponse = Schema['templates.TemplateJSONResponseDTO']
+export type TemplateListItemResponse = Schema['templates.TemplateListJSONResponseDTO']
 
 // Request types for the API
-export type CreateTemplateRequest = Schema['CreateTemplateRequestDTO']
-export type UpdateTemplateRequest = Schema['UpdateTemplateRequestDTO']
+export type CreateTemplateRequest = Schema['templates.CreateTemplateRequestDTO']
+export type UpdateTemplateRequest = Schema['templates.UpdateTemplateRequestDTO']
 
 // ============================================================================
 // Zod Schemas (for runtime validation in forms)
@@ -31,19 +31,17 @@ export const TemplateFormBaseSchema = z.object({
     name: z.string().min(1, 'Name is required').trim(),
     description: z.string().nullable().optional(),
     difficulty: z.number().min(0).max(5),
+    quantity: z.number().positive('Quantity must be positive'),
+    unit: z.string().min(1, 'Unit is required'),
 })
 
 // Complete template validation schema (for create/update)
 export const CreateTemplateSchema = TemplateFormBaseSchema.extend({
-    quantity: z.number().positive('Quantity must be positive'),
-    unit: z.string().min(1, 'Unit is required'),
     steps: TemplateStepsSchema,
     resources: TemplateResourcesSchema.optional(),
 })
 
 export const UpdateTemplateSchema = TemplateFormBaseSchema.extend({
-    quantity: z.number().positive('Quantity must be positive').optional(),
-    unit: z.string().min(1, 'Unit is required').optional(),
     steps: TemplateStepsSchema.optional(),
     resources: TemplateResourcesSchema.optional(),
 })
