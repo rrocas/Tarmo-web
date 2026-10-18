@@ -32,8 +32,8 @@ const DeleteResourceButton = React.forwardRef<HTMLDivElement, DeleteResourceButt
     async function handleDelete() {
       try {
         await deleteResourceAction(id)
+        await mutate("resources")
         router.push("/resources")
-        mutate("/resources")
         toast.success("Resource removed from your collection.")
       } catch (error) {
         console.error("Failed to delete resource:", error)

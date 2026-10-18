@@ -15,6 +15,7 @@ import { createResourceAction, updateResourceAction } from "../api/resource-acti
 import { useRef, useState } from "react"
 import { toast } from "sonner"
 import { ResourceFormFields } from "./form-fields"
+import { mutate } from "swr"
 
 type ResourceSheetProps =
     | { mode: "edit"; resource: Resource; trigger?: React.ReactNode }
@@ -64,6 +65,8 @@ export function ResourceSheet({ mode, resource, trigger }: ResourceSheetProps) {
                                 } else {
                                     await createResourceAction(formData)
                                 }
+
+                                await mutate("resources")
 
                                 formRef.current?.reset()
                                 setOpen(false)

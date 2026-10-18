@@ -10,6 +10,8 @@ import { DataTable } from "@/src/features/resources/components/data-table"
 import { DataList } from "@/src/features/resources/components/data-list"
 import { ResourceSheet } from "@/src/features/resources/components/resource-sheet"
 import type { getResources } from "@/src/features/resources/api"
+import useSWR from "swr"
+import { getResourcesAction } from "@/src/features/resources/api/resource-actions"
 
 type Resource = Awaited<ReturnType<typeof getResources>>[number]
 
@@ -28,8 +30,8 @@ function useMediaQuery(query: string) {
 }
 
 export function ResourcesBrowser({
-  data,
-  error,
+  data: initialData,
+  error: initialError,
 }: {
   data: Resource[]
   error: boolean
@@ -38,7 +40,17 @@ export function ResourcesBrowser({
   const deferredQuery = useDeferredValue(query)
   const isDesktop = useMediaQuery("(min-width: 1024px)") // breakpoint lg
 
-  // Se calcula una sola vez cuando cambian los datos
+  const { data = initialData, error: swrError } = useSWR<Resource[]>(
+    "resources",
+    () => getResourcesAction(),
+    {
+      fallbackData: initialData,
+      revalidateOnMount: initialError,
+      refreshInterval: 5000,
+    }
+  )
+  const showError = !!swrError && data.length === 0
+
   const indexed = useMemo(
     () =>
       data.map((r) => ({
@@ -57,7 +69,6 @@ export function ResourcesBrowser({
       .map((item) => item.resource)
   }, [data, indexed, deferredQuery])
 
-  // Si `filtered` no cambia, React reutiliza el elemento y no re-renderiza
   const table = useMemo(
     () => <DataTable columns={columns} data={filtered} />,
     [filtered]
@@ -90,7 +101,7 @@ export function ResourcesBrowser({
       </div>
 
       <main className="pt-0 p-2 sm:p-8 flex-1 min-h-0 flex flex-col">
-        {error ? (
+        {showError ? (
           <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
             <p className="text-muted-foreground">
               We couldn't connect to the server. Please try again.
