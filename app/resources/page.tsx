@@ -1,6 +1,7 @@
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from "@/components/ui/breadcrumb"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { getResources } from "@/src/features/resources/api"
+import { getResourcesAction } from "@/src/features/resources/api/resource-actions"
 import { ResourcesBrowser } from "@/src/features/resources/components/browser"
 
 export default async function Page() {
@@ -8,7 +9,7 @@ export default async function Page() {
   let error = false
 
   try {
-    initialResources = await getResources()
+    initialResources = await getResourcesAction()
   } catch (e) {
     console.error("Failed to load resources:", e)
     error = true
