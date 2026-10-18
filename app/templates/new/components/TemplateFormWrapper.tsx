@@ -80,8 +80,8 @@ export function TemplateFormWrapper({ mode = 'create', templateId }: TemplateFor
 
       <div className="px-4 space-y-2 pb-3">
         <div className="flex items-center justify-between text-sm">
-          <span className="font-medium">{currentStage + 1} / {STAGES.length}</span>  {/* ← cambio */}
-          <span className="text-muted-foreground">{STAGES[currentStage].name}</span>  {/* ← cambio */}
+          <span className="font-medium">{currentStage + 1} / {STAGES.length}</span>
+          <span className="text-muted-foreground">{STAGES[currentStage].name}</span>
         </div>
         <Progress value={progress} />
       </div>

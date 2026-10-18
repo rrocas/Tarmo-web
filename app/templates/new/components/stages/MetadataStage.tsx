@@ -13,7 +13,7 @@ export function MetadataStage() {
     <div className="max-w-4xl sm:1/2 xl:w-1/3 flex flex-col space-y-4">
       {/* Name */}
       <Field>
-        <FieldLabel>Name *</FieldLabel>
+        <FieldLabel>* Name</FieldLabel>
         <Input
           placeholder="e.g Pepperoni Pizza"
           value={formData.name || ""}
@@ -24,7 +24,7 @@ export function MetadataStage() {
       <div className="grid grid-cols-2 gap-4">
         {/* Quantity */}
         <Field>
-          <FieldLabel>Quantity *</FieldLabel>
+          <FieldLabel>* Quantity</FieldLabel>
           <Input
             type="number"
             placeholder="e.g 2"
@@ -35,7 +35,7 @@ export function MetadataStage() {
 
         {/* Unit */}
         <Field>
-          <FieldLabel>Unit *</FieldLabel>
+          <FieldLabel>* Unit</FieldLabel>
           <Select
             value={formData.unit || ""}
             onValueChange={(value) => updateFormData({ unit: value })}

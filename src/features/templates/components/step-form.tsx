@@ -21,7 +21,7 @@ export default function StepForm({ editingIndex, setEditingIndex, setIsSheetOpen
     <Field className="flex justify-between items-center h-full">
       <FieldGroup>
         <Field>
-          <FieldLabel>Step Name *</FieldLabel>
+          <FieldLabel>* Step Name</FieldLabel>
           <Input
             placeholder="e.g. Preheat oven"
             value={currentName}

@@ -20,7 +20,7 @@ export function ResourceFormFields({ resource, onValueChange }: ResourceFormFiel
     return (
         <>
             <Field className="grid gap-2">
-                <FieldLabel htmlFor="name">Name</FieldLabel>
+                <FieldLabel htmlFor="name">* Name</FieldLabel>
                 <Input
                     id="name"
                     name="name"
@@ -37,7 +37,7 @@ export function ResourceFormFields({ resource, onValueChange }: ResourceFormFiel
                 />
             </Field>
             <Field className="grid gap-2">
-                <FieldLabel htmlFor="price">Price (in cents)</FieldLabel>
+                <FieldLabel htmlFor="price">* Price (in cents)</FieldLabel>
                 <Input
                     id="price"
                     name="price"
@@ -47,7 +47,7 @@ export function ResourceFormFields({ resource, onValueChange }: ResourceFormFiel
                 />
             </Field>
             <Field className="grid gap-2">
-                <FieldLabel htmlFor="quantity">Base Quantity</FieldLabel>
+                <FieldLabel htmlFor="quantity">* Quantity</FieldLabel>
                 <Input
                     id="quantity"
                     name="quantity"
@@ -58,7 +58,7 @@ export function ResourceFormFields({ resource, onValueChange }: ResourceFormFiel
                 />
             </Field>
             <Field className="grid gap-2">
-                <FieldLabel htmlFor="unit">Base Unit</FieldLabel>
+                <FieldLabel htmlFor="unit">* Unit</FieldLabel>
                 <Select name="unit" defaultValue={resource?.base_unit} required>
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder="Unit" />
