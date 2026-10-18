@@ -4,612 +4,612 @@
  */
 
 export interface paths {
-    "/resources": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List all resources
-         * @description Get a list of all resources in the collection
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["resources.ResourceJSONResponseDTO"][];
-                    };
-                };
-                /** @description internal error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Create a new resource
-         * @description Add a new resource to the collection
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Resource object */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["resources.CreateResourceRequestDTO"];
-                };
-            };
-            responses: {
-                /** @description Created */
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description invalid request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+  "/resources": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/resources/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    /**
+     * List all resources
+     * @description Get a list of all resources in the collection
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["resources.ResourceJSONResponseDTO"][];
+          };
         };
-        /**
-         * Get a resource by ID
-         * @description Get detailed information about a single resource
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description Resource ID */
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["resources.ResourceJSONResponseDTO"];
-                    };
-                };
-                /** @description invalid id */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-                /** @description resource not found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-                /** @description internal error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-            };
+        /** @description internal error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": string;
+          };
         };
-        /**
-         * Update a resource
-         * @description Update an existing resource's information
-         */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description Resource ID */
-                    id: number;
-                };
-                cookie?: never;
-            };
-            /** @description Updated resource object */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["resources.UpdateResourceRequestDTO"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description invalid request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-                /** @description template not found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-                /** @description internal error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-            };
-        };
-        post?: never;
-        /**
-         * Delete a resource
-         * @description Remove a resource from the collection
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description Resource ID */
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description No Content */
-                204: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description invalid id */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "*/*": string;
-                    };
-                };
-                /** @description resource not found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "*/*": string;
-                    };
-                };
-                /** @description internal error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "*/*": string;
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+      };
     };
-    "/templates": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    put?: never;
+    /**
+     * Create a new resource
+     * @description Add a new resource to the collection
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Resource object */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["resources.CreateResourceRequestDTO"];
         };
-        /**
-         * List all templates
-         * @description Get a list of all templates in the collection
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["templates.TemplateListJSONResponseDTO"][];
-                    };
-                };
-                /** @description internal error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-            };
+      };
+      responses: {
+        /** @description Created */
+        201: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content?: never;
         };
-        put?: never;
-        /**
-         * Create a new template
-         * @description Add a new template to the collection
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Template object */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["templates.CreateTemplateRequestDTO"];
-                };
-            };
-            responses: {
-                /** @description Created */
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description invalid request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-            };
+        /** @description invalid request */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": string;
+          };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+      };
     };
-    "/templates/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get a template by ID
-         * @description Get detailed information about a single template
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description Template ID */
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["templates.TemplateJSONResponseDTO"];
-                    };
-                };
-                /** @description invalid id */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-                /** @description template not found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-                /** @description internal error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-            };
-        };
-        /**
-         * Update a template
-         * @description Update an existing template's information
-         */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description Template ID */
-                    id: number;
-                };
-                cookie?: never;
-            };
-            /** @description Updated template object */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["templates.UpdateTemplateRequestDTO"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description invalid request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-                /** @description template not found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-                /** @description internal error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-            };
-        };
-        post?: never;
-        /**
-         * Delete a template
-         * @description Remove a template from the collection
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description Template ID */
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description No Content */
-                204: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description invalid id */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "*/*": string;
-                    };
-                };
-                /** @description template not found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "*/*": string;
-                    };
-                };
-                /** @description internal error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "*/*": string;
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/resources/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
+    /**
+     * Get a resource by ID
+     * @description Get detailed information about a single resource
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Resource ID */
+          id: number;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["resources.ResourceJSONResponseDTO"];
+          };
+        };
+        /** @description invalid id */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": string;
+          };
+        };
+        /** @description resource not found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": string;
+          };
+        };
+        /** @description internal error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": string;
+          };
+        };
+      };
+    };
+    /**
+     * Update a resource
+     * @description Update an existing resource's information
+     */
+    put: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Resource ID */
+          id: number;
+        };
+        cookie?: never;
+      };
+      /** @description Updated resource object */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["resources.UpdateResourceRequestDTO"];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content?: never;
+        };
+        /** @description invalid request */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": string;
+          };
+        };
+        /** @description template not found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": string;
+          };
+        };
+        /** @description internal error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": string;
+          };
+        };
+      };
+    };
+    post?: never;
+    /**
+     * Delete a resource
+     * @description Remove a resource from the collection
+     */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Resource ID */
+          id: number;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description No Content */
+        204: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content?: never;
+        };
+        /** @description invalid id */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "*/*": string;
+          };
+        };
+        /** @description resource not found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "*/*": string;
+          };
+        };
+        /** @description internal error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "*/*": string;
+          };
+        };
+      };
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/templates": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * List all templates
+     * @description Get a list of all templates in the collection
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["templates.TemplateListJSONResponseDTO"][];
+          };
+        };
+        /** @description internal error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": string;
+          };
+        };
+      };
+    };
+    put?: never;
+    /**
+     * Create a new template
+     * @description Add a new template to the collection
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Template object */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["templates.CreateTemplateRequestDTO"];
+        };
+      };
+      responses: {
+        /** @description Created */
+        201: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content?: never;
+        };
+        /** @description invalid request */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": string;
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/templates/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get a template by ID
+     * @description Get detailed information about a single template
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Template ID */
+          id: number;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["templates.TemplateJSONResponseDTO"];
+          };
+        };
+        /** @description invalid id */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": string;
+          };
+        };
+        /** @description template not found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": string;
+          };
+        };
+        /** @description internal error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": string;
+          };
+        };
+      };
+    };
+    /**
+     * Update a template
+     * @description Update an existing template's information
+     */
+    put: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Template ID */
+          id: number;
+        };
+        cookie?: never;
+      };
+      /** @description Updated template object */
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["templates.UpdateTemplateRequestDTO"];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content?: never;
+        };
+        /** @description invalid request */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": string;
+          };
+        };
+        /** @description template not found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": string;
+          };
+        };
+        /** @description internal error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": string;
+          };
+        };
+      };
+    };
+    post?: never;
+    /**
+     * Delete a template
+     * @description Remove a template from the collection
+     */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Template ID */
+          id: number;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description No Content */
+        204: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content?: never;
+        };
+        /** @description invalid id */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "*/*": string;
+          };
+        };
+        /** @description template not found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "*/*": string;
+          };
+        };
+        /** @description internal error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "*/*": string;
+          };
+        };
+      };
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: {
-        "resources.CreateResourceRequestDTO": {
-            description?: string;
-            name?: string;
-            price?: number;
-            quantity?: number;
-            unit?: string;
-        };
-        "resources.ResourceJSONResponseDTO": {
-            base_quantity?: number;
-            base_unit?: string;
-            created_at?: string;
-            description?: string;
-            id?: number;
-            name?: string;
-            price?: number;
-            updated_at?: string;
-        };
-        "resources.UpdateResourceRequestDTO": {
-            description?: string;
-            id?: number;
-            name?: string;
-            price?: number;
-            quantity?: number;
-            unit?: string;
-        };
-        "templates.CreateTemplateRequestDTO": {
-            description?: string;
-            difficulty?: number;
-            name?: string;
-            quantity?: number;
-            resources?: components["schemas"]["templates.ResourceRefDTO"][];
-            steps?: components["schemas"]["templates.StepDTO"][];
-            unit?: string;
-        };
-        "templates.ResourceRefDTO": {
-            quantity?: number;
-            resource_id?: number;
-            unit?: string;
-        };
-        "templates.ResourceRefResponseDTO": {
-            quantity?: number;
-            resource_id?: number;
-            unit?: string;
-        };
-        "templates.StepDTO": {
-            instructions?: string;
-            name?: string;
-        };
-        "templates.StepJSONResponseDTO": {
-            instructions?: string;
-            name?: string;
-            order?: number;
-        };
-        "templates.TemplateJSONResponseDTO": {
-            description?: string;
-            difficulty?: number;
-            id?: number;
-            name?: string;
-            quantity?: number;
-            resources?: components["schemas"]["templates.ResourceRefResponseDTO"][];
-            steps?: components["schemas"]["templates.StepJSONResponseDTO"][];
-            unit?: string;
-        };
-        "templates.TemplateListJSONResponseDTO": {
-            description?: string;
-            id?: number;
-            name?: string;
-        };
-        "templates.UpdateTemplateRequestDTO": {
-            description?: string;
-            difficulty?: number;
-            id?: number;
-            name?: string;
-            quantity?: number;
-            resources?: components["schemas"]["templates.ResourceRefDTO"][];
-            steps?: components["schemas"]["templates.StepDTO"][];
-            unit?: string;
-        };
+  schemas: {
+    "resources.CreateResourceRequestDTO": {
+      description?: string;
+      name?: string;
+      price?: number;
+      quantity?: number;
+      unit?: string;
     };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+    "resources.ResourceJSONResponseDTO": {
+      base_quantity?: number;
+      base_unit?: string;
+      created_at?: string;
+      description?: string;
+      id?: number;
+      name?: string;
+      price?: number;
+      updated_at?: string;
+    };
+    "resources.UpdateResourceRequestDTO": {
+      description?: string;
+      id?: number;
+      name?: string;
+      price?: number;
+      quantity?: number;
+      unit?: string;
+    };
+    "templates.CreateTemplateRequestDTO": {
+      description?: string;
+      difficulty?: number;
+      name?: string;
+      quantity?: number;
+      resources?: components["schemas"]["templates.ResourceRefDTO"][];
+      steps?: components["schemas"]["templates.StepDTO"][];
+      unit?: string;
+    };
+    "templates.ResourceRefDTO": {
+      quantity?: number;
+      resource_id?: number;
+      unit?: string;
+    };
+    "templates.ResourceRefResponseDTO": {
+      quantity?: number;
+      resource_id?: number;
+      unit?: string;
+    };
+    "templates.StepDTO": {
+      instructions?: string;
+      name?: string;
+    };
+    "templates.StepJSONResponseDTO": {
+      instructions?: string;
+      name?: string;
+      order?: number;
+    };
+    "templates.TemplateJSONResponseDTO": {
+      description?: string;
+      difficulty?: number;
+      id?: number;
+      name?: string;
+      quantity?: number;
+      resources?: components["schemas"]["templates.ResourceRefResponseDTO"][];
+      steps?: components["schemas"]["templates.StepJSONResponseDTO"][];
+      unit?: string;
+    };
+    "templates.TemplateListJSONResponseDTO": {
+      description?: string;
+      id?: number;
+      name?: string;
+    };
+    "templates.UpdateTemplateRequestDTO": {
+      description?: string;
+      difficulty?: number;
+      id?: number;
+      name?: string;
+      quantity?: number;
+      resources?: components["schemas"]["templates.ResourceRefDTO"][];
+      steps?: components["schemas"]["templates.StepDTO"][];
+      unit?: string;
+    };
+  };
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 export type $defs = Record<string, never>;
 export type operations = Record<string, never>;

@@ -1,56 +1,39 @@
-"use client"
-import useSWR from "swr"
-import { getTemplates, type TemplateListItem } from "@/features/templates/api"
-import { motion } from "framer-motion"
-import Image from "next/image"
-import {
-  Item,
-  ItemContent,
-  ItemDescription,
-  ItemGroup,
-  ItemMedia,
-  ItemTitle,
-} from "@/components/ui/item"
-import { Inbox, PencilLine } from "lucide-react"
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/components/ui/context-menu"
-import DeleteTemplateButton from "./delete-template-button"
-import { getTemplatesAction } from "../api/templates-actions"
+"use client";
+import useSWR from "swr";
+import { getTemplates, type TemplateListItem } from "@/features/templates/api";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from "@/components/ui/item";
+import { Inbox, PencilLine } from "lucide-react";
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/components/ui/context-menu";
+import DeleteTemplateButton from "./delete-template-button";
+import { getTemplatesAction } from "../api/templates-actions";
 
-const fetcher = () => getTemplatesAction()
+const fetcher = () => getTemplatesAction();
 
-export default function TemplatesView({
-  initial,
-  query = "",
-}: {
-  initial: TemplateListItem[]
-  query?: string
-}) {
+export default function TemplatesView({ initial, query = "" }: { initial: TemplateListItem[]; query?: string }) {
   const { data } = useSWR("/templates", fetcher, {
     fallbackData: initial,
     refreshInterval: 5000,
-  })
+  });
 
-  const term = query.trim().toLowerCase()
-  const filtered = data.filter((t) =>
-    (t.name ?? "").toLowerCase().includes(term)
-  )
+  const term = query.trim().toLowerCase();
+  const filtered = data.filter((t) => (t.name ?? "").toLowerCase().includes(term));
 
   return (
-    <div className="h-full w-full flex flex-col p-4 pt-2 overflow-hidden">
+    <div className="flex h-full w-full flex-col overflow-hidden p-4 pt-2">
       {data.length === 0 ? (
-        <div className="flex items-center justify-center h-full">
+        <div className="flex h-full items-center justify-center">
           <Empty>
             <EmptyHeader>
               <EmptyMedia variant="icon">
                 <Inbox />
               </EmptyMedia>
               <EmptyTitle className="text-lg">Looks a bit empty…</EmptyTitle>
-              <EmptyDescription className="text-lg">
-                Add a template to start building your collection.
-              </EmptyDescription>
+              <EmptyDescription className="text-lg">Add a template to start building your collection.</EmptyDescription>
             </EmptyHeader>
             <EmptyContent>
               <Button asChild size="lg">
@@ -60,8 +43,8 @@ export default function TemplatesView({
           </Empty>
         </div>
       ) : (
-        <div className="overflow-y-auto overflow-x-hidden">
-          <ItemGroup className="grid gap-4 grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 auto-rows-min p-1">
+        <div className="overflow-x-hidden overflow-y-auto">
+          <ItemGroup className="xs:grid-cols-3 grid auto-rows-min grid-cols-2 gap-4 p-1 sm:grid-cols-3 lg:grid-cols-4">
             {filtered.map((template) => (
               <motion.div
                 key={template.id}
@@ -93,7 +76,10 @@ export default function TemplatesView({
                   </ContextMenuTrigger>
                   <ContextMenuContent>
                     <ContextMenuItem asChild>
-                      <Link href={`/templates/${template.id}/edit`}><PencilLine />Edit</Link>
+                      <Link href={`/templates/${template.id}/edit`}>
+                        <PencilLine />
+                        Edit
+                      </Link>
                     </ContextMenuItem>
                     <ContextMenuItem asChild variant="destructive" onSelect={(e) => e.preventDefault()}>
                       <DeleteTemplateButton id={template.id!} showButton={false} />
@@ -106,5 +92,5 @@ export default function TemplatesView({
         </div>
       )}
     </div>
-  )
+  );
 }

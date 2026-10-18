@@ -1,16 +1,24 @@
-"use client"
-import { useTemplateFormStore } from "@/features/templates/store/template-form-store"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Field, FieldLabel } from "@/components/ui/field"
-import { CircleQuestionMark, Croissant, Flame, Scale, Skull, Zap } from "lucide-react"
+"use client";
+import { useTemplateFormStore } from "@/features/templates/store/template-form-store";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { CircleQuestionMark, Croissant, Flame, Scale, Skull, Zap } from "lucide-react";
 
 export function MetadataStage() {
-  const { formData, updateFormData } = useTemplateFormStore()
+  const { formData, updateFormData } = useTemplateFormStore();
 
   return (
-    <div className="max-w-4xl sm:1/2 xl:w-1/3 flex flex-col space-y-4">
+    <div className="sm:1/2 flex max-w-4xl flex-col space-y-4 xl:w-1/3">
       {/* Name */}
       <Field>
         <FieldLabel>* Name</FieldLabel>
@@ -36,10 +44,7 @@ export function MetadataStage() {
         {/* Unit */}
         <Field>
           <FieldLabel>* Unit</FieldLabel>
-          <Select
-            value={formData.unit || ""}
-            onValueChange={(value) => updateFormData({ unit: value })}
-          >
+          <Select value={formData.unit || ""} onValueChange={(value) => updateFormData({ unit: value })}>
             <SelectTrigger>
               <SelectValue placeholder="e.g Pieces" />
             </SelectTrigger>
@@ -75,12 +80,30 @@ export function MetadataStage() {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value="0"><CircleQuestionMark size={16} />Not specified</SelectItem>
-              <SelectItem value="1"><Croissant size={16} />Very Easy</SelectItem>
-              <SelectItem value="2"><Zap size={16} />Easy</SelectItem>
-              <SelectItem value="3"><Scale size={16} />Medium</SelectItem>
-              <SelectItem value="4"><Flame size={16} />Hard</SelectItem>
-              <SelectItem value="5"><Skull size={16} />Very Hard</SelectItem>
+              <SelectItem value="0">
+                <CircleQuestionMark size={16} />
+                Not specified
+              </SelectItem>
+              <SelectItem value="1">
+                <Croissant size={16} />
+                Very Easy
+              </SelectItem>
+              <SelectItem value="2">
+                <Zap size={16} />
+                Easy
+              </SelectItem>
+              <SelectItem value="3">
+                <Scale size={16} />
+                Medium
+              </SelectItem>
+              <SelectItem value="4">
+                <Flame size={16} />
+                Hard
+              </SelectItem>
+              <SelectItem value="5">
+                <Skull size={16} />
+                Very Hard
+              </SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -97,5 +120,5 @@ export function MetadataStage() {
         />
       </Field>
     </div>
-  )
+  );
 }

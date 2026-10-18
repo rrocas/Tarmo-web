@@ -5,12 +5,10 @@ import { PageTransition } from "@/components/page-transition";
 
 export default function Template({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  
+
   return (
     <AnimatePresence mode="wait">
-      <PageTransition key={pathname}>
-        {children}
-      </PageTransition>
+      <PageTransition key={pathname}>{children}</PageTransition>
     </AnimatePresence>
   );
 }

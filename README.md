@@ -28,6 +28,7 @@ Tarmo Web is a web application built to interact with the Tarmo Engine. it featu
 ### Installation
 
 1. Install dependencies:
+
    ```bash
    yarn install
    ```

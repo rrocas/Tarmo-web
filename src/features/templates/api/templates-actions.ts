@@ -1,47 +1,42 @@
-"use server"
+"use server";
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath } from "next/cache";
+import { createTemplate, updateTemplate, deleteTemplate, getTemplates } from "./templates-api";
 import {
-    createTemplate,
-    updateTemplate,
-    deleteTemplate,
-    getTemplates,
-} from "./templates-api"
-import {
-    CreateTemplateSchema,
-    type CreateTemplateRequest,
-    type UpdateTemplateRequest,
-} from "../schemas/template-schemas"
+  CreateTemplateSchema,
+  type CreateTemplateRequest,
+  type UpdateTemplateRequest,
+} from "../schemas/template-schemas";
 
 export async function getTemplatesAction() {
-    return getTemplates()
+  return getTemplates();
 }
 
 export async function createTemplateAction(template: CreateTemplateRequest) {
-    const parsed = CreateTemplateSchema.safeParse(template)
+  const parsed = CreateTemplateSchema.safeParse(template);
 
-    if (!parsed.success) {
-        console.error("Invalid template data:", parsed.error.issues)
-        throw new Error("Invalid template data")
-    }
+  if (!parsed.success) {
+    console.error("Invalid template data:", parsed.error.issues);
+    throw new Error("Invalid template data");
+  }
 
-    await createTemplate(parsed.data as CreateTemplateRequest)
-    revalidatePath("/templates")
+  await createTemplate(parsed.data as CreateTemplateRequest);
+  revalidatePath("/templates");
 }
 
 export async function updateTemplateAction(id: number, template: UpdateTemplateRequest) {
-    const parsed = CreateTemplateSchema.safeParse(template)
+  const parsed = CreateTemplateSchema.safeParse(template);
 
-    if (!parsed.success) {
-        console.error("Invalid template data:", parsed.error.issues)
-        throw new Error("Invalid template data")
-    }
+  if (!parsed.success) {
+    console.error("Invalid template data:", parsed.error.issues);
+    throw new Error("Invalid template data");
+  }
 
-    await updateTemplate(id, parsed.data as UpdateTemplateRequest)
-    revalidatePath("/templates")
+  await updateTemplate(id, parsed.data as UpdateTemplateRequest);
+  revalidatePath("/templates");
 }
 
 export async function deleteTemplateAction(id: number) {
-    await deleteTemplate(id)
-    revalidatePath("/templates")
+  await deleteTemplate(id);
+  revalidatePath("/templates");
 }

@@ -1,43 +1,42 @@
-import { getTemplate } from "@/features/templates/api"
-import { TemplateDetailView } from "@/features/templates/components/template-detail-view"
-import { notFound } from "next/navigation"
-import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from "@/components/ui/breadcrumb"
-import { SidebarTrigger } from "@/components/ui/sidebar"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { ArrowLeft, PencilLine } from "lucide-react"
-import DeleteTemplateButton from "@/features/templates/components/delete-template-button"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { getTemplate } from "@/features/templates/api";
+import { TemplateDetailView } from "@/features/templates/components/template-detail-view";
+import { notFound } from "next/navigation";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbPage,
+} from "@/components/ui/breadcrumb";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ArrowLeft, PencilLine } from "lucide-react";
+import DeleteTemplateButton from "@/features/templates/components/delete-template-button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-export default async function TemplatePage({
-  params,
-}: {
-  params: Promise<{ id: number }>
-}) {
-  const { id } = await params
+export default async function TemplatePage({ params }: { params: Promise<{ id: number }> }) {
+  const { id } = await params;
 
-  const template = await getTemplate(id)
+  const template = await getTemplate(id);
 
   if (!template) {
-    notFound()
+    notFound();
   }
 
   return (
-    <div className="h-full w-full flex flex-col justify-between">
-      <header className="bg-background flex sticky top-0 z-30 h-16 shrink-0 items-center gap-2 px-4 w-full">
+    <div className="flex h-full w-full flex-col justify-between">
+      <header className="bg-background sticky top-0 z-30 flex h-16 w-full shrink-0 items-center gap-2 px-4">
         <SidebarTrigger className="-ml-1" />
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink href="/">
-                Home
-              </BreadcrumbLink>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink href="/templates">
-                Templates
-              </BreadcrumbLink>
+              <BreadcrumbLink href="/templates">Templates</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
@@ -47,20 +46,24 @@ export default async function TemplatePage({
         </Breadcrumb>
       </header>
 
-      <div className="w-full flex-1 min-h-0 px-4">
+      <div className="min-h-0 w-full flex-1 px-4">
         <TemplateDetailView template={template} />
       </div>
 
-      <footer className="p-4 flex justify-between">
+      <footer className="flex justify-between p-4">
         <Button asChild variant="ghost">
-          <Link href="/templates/"><ArrowLeft />Back</Link>
+          <Link href="/templates/">
+            <ArrowLeft />
+            Back
+          </Link>
         </Button>
-
 
         <Tooltip>
           <TooltipTrigger asChild>
             <Button asChild variant="ghost">
-              <Link href={`/templates/${id}/edit`}><PencilLine /></Link>
+              <Link href={`/templates/${id}/edit`}>
+                <PencilLine />
+              </Link>
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -69,8 +72,7 @@ export default async function TemplatePage({
         </Tooltip>
 
         <DeleteTemplateButton id={id} showButton={true} />
-
       </footer>
     </div>
-  )
+  );
 }

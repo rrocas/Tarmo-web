@@ -1,3 +1,3 @@
 export function formatPrice(price: number) {
-    return `\$${price / 100}`
+  return `\$${price / 100}`;
 }

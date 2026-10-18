@@ -1,23 +1,30 @@
-import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from "@/components/ui/breadcrumb"
-import { SidebarTrigger } from "@/components/ui/sidebar"
-import { getResources } from "@/src/features/resources/api"
-import { getResourcesAction } from "@/src/features/resources/api/resource-actions"
-import { ResourcesBrowser } from "@/src/features/resources/components/browser"
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbPage,
+} from "@/components/ui/breadcrumb";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { getResources } from "@/src/features/resources/api";
+import { getResourcesAction } from "@/src/features/resources/api/resource-actions";
+import { ResourcesBrowser } from "@/src/features/resources/components/browser";
 
 export default async function Page() {
-  let initialResources: Awaited<ReturnType<typeof getResources>> = []
-  let error = false
+  let initialResources: Awaited<ReturnType<typeof getResources>> = [];
+  let error = false;
 
   try {
-    initialResources = await getResourcesAction()
+    initialResources = await getResourcesAction();
   } catch (e) {
-    console.error("Failed to load resources:", e)
-    error = true
+    console.error("Failed to load resources:", e);
+    error = true;
   }
 
   return (
-    <div className="h-full flex flex-col">
-      <header className="bg-background flex sticky top-0 z-30 h-16 shrink-0 items-center gap-2 px-4 w-full">
+    <div className="flex h-full flex-col">
+      <header className="bg-background sticky top-0 z-30 flex h-16 w-full shrink-0 items-center gap-2 px-4">
         <SidebarTrigger className="-ml-1" />
         <Breadcrumb>
           <BreadcrumbList>
@@ -34,5 +41,5 @@ export default async function Page() {
 
       <ResourcesBrowser data={initialResources} error={error} />
     </div>
-  )
+  );
 }

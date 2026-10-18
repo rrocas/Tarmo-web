@@ -1,19 +1,16 @@
-import { z } from 'zod'
-import { QuantitySchema } from '../../shared/schemas/quantity-schemas'
+import { z } from "zod";
+import { QuantitySchema } from "../../shared/schemas/quantity-schemas";
 
 export const resourceSchema = z.object({
-    id: z.number(),
-    name: z.string(),
-    description: z.string().nullable(),
-    price: z.number().positive(),
-    quantity: QuantitySchema,
-    createdAt: z.iso.datetime(),
-    updatedAt: z.iso.datetime()
-})
+  id: z.number(),
+  name: z.string(),
+  description: z.string().nullable(),
+  price: z.number().positive(),
+  quantity: QuantitySchema,
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime(),
+});
 
-export const priceSchema = z.coerce
-    .number()
-    .positive()
-    .safe()
+export const priceSchema = z.coerce.number().positive().safe();
 
-export type Resource = z.infer<typeof resourceSchema>
+export type Resource = z.infer<typeof resourceSchema>;

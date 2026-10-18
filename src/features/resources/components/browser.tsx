@@ -1,55 +1,45 @@
-"use client"
+"use client";
 
-import { useDeferredValue, useEffect, useMemo, useState } from "react"
-import { Plus, Search } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { ButtonGroup } from "@/components/ui/button-group"
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
-import { columns } from "@/src/features/resources/components/columns"
-import { DataTable } from "@/src/features/resources/components/data-table"
-import { DataList } from "@/src/features/resources/components/data-list"
-import { ResourceSheet } from "@/src/features/resources/components/resource-sheet"
-import type { getResources } from "@/src/features/resources/api"
-import useSWR from "swr"
-import { getResourcesAction } from "@/src/features/resources/api/resource-actions"
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import { Plus, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { columns } from "@/src/features/resources/components/columns";
+import { DataTable } from "@/src/features/resources/components/data-table";
+import { DataList } from "@/src/features/resources/components/data-list";
+import { ResourceSheet } from "@/src/features/resources/components/resource-sheet";
+import type { getResources } from "@/src/features/resources/api";
+import useSWR from "swr";
+import { getResourcesAction } from "@/src/features/resources/api/resource-actions";
 
-type Resource = Awaited<ReturnType<typeof getResources>>[number]
+type Resource = Awaited<ReturnType<typeof getResources>>[number];
 
 function useMediaQuery(query: string) {
-  const [matches, setMatches] = useState<boolean | null>(null)
+  const [matches, setMatches] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const mql = window.matchMedia(query)
-    setMatches(mql.matches)
-    const onChange = (e: MediaQueryListEvent) => setMatches(e.matches)
-    mql.addEventListener("change", onChange)
-    return () => mql.removeEventListener("change", onChange)
-  }, [query])
+    const mql = window.matchMedia(query);
+    setMatches(mql.matches);
+    const onChange = (e: MediaQueryListEvent) => setMatches(e.matches);
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, [query]);
 
-  return matches
+  return matches;
 }
 
-export function ResourcesBrowser({
-  data: initialData,
-  error: initialError,
-}: {
-  data: Resource[]
-  error: boolean
-}) {
-  const [query, setQuery] = useState("")
-  const deferredQuery = useDeferredValue(query)
-  const isDesktop = useMediaQuery("(min-width: 1024px)") // breakpoint lg
+export function ResourcesBrowser({ data: initialData, error: initialError }: { data: Resource[]; error: boolean }) {
+  const [query, setQuery] = useState("");
+  const deferredQuery = useDeferredValue(query);
+  const isDesktop = useMediaQuery("(min-width: 1024px)"); // breakpoint lg
 
-  const { data = initialData, error: swrError } = useSWR<Resource[]>(
-    "resources",
-    () => getResourcesAction(),
-    {
-      fallbackData: initialData,
-      revalidateOnMount: initialError,
-      refreshInterval: 5000,
-    }
-  )
-  const showError = !!swrError && data.length === 0
+  const { data = initialData, error: swrError } = useSWR<Resource[]>("resources", () => getResourcesAction(), {
+    fallbackData: initialData,
+    revalidateOnMount: initialError,
+    refreshInterval: 5000,
+  });
+  const showError = !!swrError && data.length === 0;
 
   const indexed = useMemo(
     () =>
@@ -57,27 +47,22 @@ export function ResourcesBrowser({
         resource: r,
         name: (r.name ?? "").toLowerCase(),
       })),
-    [data]
-  )
+    [data],
+  );
 
   const filtered = useMemo(() => {
-    const term = deferredQuery.trim().toLowerCase()
-    if (!term) return data
+    const term = deferredQuery.trim().toLowerCase();
+    if (!term) return data;
 
-    return indexed
-      .filter((item) => item.name.includes(term))
-      .map((item) => item.resource)
-  }, [data, indexed, deferredQuery])
+    return indexed.filter((item) => item.name.includes(term)).map((item) => item.resource);
+  }, [data, indexed, deferredQuery]);
 
-  const table = useMemo(
-    () => <DataTable columns={columns} data={filtered} />,
-    [filtered]
-  )
-  const list = useMemo(() => <DataList data={filtered} />, [filtered])
+  const table = useMemo(() => <DataTable columns={columns} data={filtered} />, [filtered]);
+  const list = useMemo(() => <DataList data={filtered} />, [filtered]);
 
   return (
     <>
-      <div className="w-full pl-2 pr-3 pb-3 sticky top-16 z-30 flex space-x-2 bg-background">
+      <div className="bg-background sticky top-16 z-30 flex w-full space-x-2 pr-3 pb-3 pl-2">
         <ButtonGroup>
           <ResourceSheet
             mode="create"
@@ -89,30 +74,22 @@ export function ResourcesBrowser({
           />
         </ButtonGroup>
         <InputGroup className="md:w-2/3 lg:w-1/3">
-          <InputGroupInput
-            placeholder="Search..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
+          <InputGroupInput placeholder="Search..." value={query} onChange={(e) => setQuery(e.target.value)} />
           <InputGroupAddon>
             <Search />
           </InputGroupAddon>
         </InputGroup>
       </div>
 
-      <main className="pt-0 p-2 sm:p-8 flex-1 min-h-0 flex flex-col">
+      <main className="flex min-h-0 flex-1 flex-col p-2 pt-0 sm:p-8">
         {showError ? (
           <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
-            <p className="text-muted-foreground">
-              We couldn't connect to the server. Please try again.
-            </p>
+            <p className="text-muted-foreground">We couldn't connect to the server. Please try again.</p>
           </div>
         ) : (
-          <div className="flex-1 min-h-0">
-            {isDesktop === null ? null : isDesktop ? table : list}
-          </div>
+          <div className="min-h-0 flex-1">{isDesktop === null ? null : isDesktop ? table : list}</div>
         )}
       </main>
     </>
-  )
+  );
 }
