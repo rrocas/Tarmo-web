@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/select";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Resource } from "../api/resources-api";
+import { PriceInput } from "@/components/form/price-input";
+import { QuantityInput } from "@/components/form/qty-input";
 
 interface ResourceFormFieldsProps {
   resource?: Resource;
@@ -28,38 +30,17 @@ export function ResourceFormFields({ resource, onValueChange }: ResourceFormFiel
         <Input id="description" name="description" defaultValue={resource?.description} />
       </Field>
       <Field className="grid gap-2">
-        <FieldLabel htmlFor="price">* Price (in cents)</FieldLabel>
-        <Input id="price" name="price" type="number" defaultValue={resource?.price} required />
+        <FieldLabel htmlFor="price">* Price</FieldLabel>
+        <PriceInput id="price" name="price" defaultValue={resource?.price} required />
       </Field>
       <Field className="grid gap-2">
         <FieldLabel htmlFor="quantity">* Quantity</FieldLabel>
-        <Input
+        <QuantityInput
           id="quantity"
-          name="quantity"
-          type="number"
-          step="0.01"
-          defaultValue={resource?.base_quantity ?? 1}
+          defaultQuantity={resource?.base_quantity ?? 1}
+          defaultUnit={resource?.base_unit}
           required
         />
-      </Field>
-      <Field className="grid gap-2">
-        <FieldLabel htmlFor="unit">* Unit</FieldLabel>
-        <Select name="unit" defaultValue={resource?.base_unit} required>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Unit" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Units</SelectLabel>
-              <SelectItem value="kg">Kilograms</SelectItem>
-              <SelectItem value="g">Grams</SelectItem>
-              <SelectItem value="mg">Milligrams</SelectItem>
-              <SelectItem value="l">Liters</SelectItem>
-              <SelectItem value="ml">Milliliters</SelectItem>
-              <SelectItem value="pcs">Pieces</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
       </Field>
     </>
   );
