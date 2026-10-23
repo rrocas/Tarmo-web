@@ -12,9 +12,13 @@ import {
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowLeft, PencilLine } from "lucide-react";
+import { ArrowLeft, Info, PencilLine } from "lucide-react";
 import DeleteTemplateButton from "@/features/templates/components/delete-template-button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { formatDate } from "@/lib/format/date";
+import { ButtonGroup } from "@/components/ui/button-group";
+import { te } from "date-fns/locale";
 
 export default async function TemplatePage({ params }: { params: Promise<{ id: number }> }) {
   const { id } = await params;
@@ -58,18 +62,33 @@ export default async function TemplatePage({ params }: { params: Promise<{ id: n
           </Link>
         </Button>
 
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button asChild variant="ghost">
-              <Link href={`/templates/${id}/edit`}>
-                <PencilLine />
-              </Link>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Edit</p>
-          </TooltipContent>
-        </Tooltip>
+        <ButtonGroup>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button asChild variant="ghost">
+                <Link href={`/templates/${id}/edit`}>
+                  <PencilLine />
+                </Link>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Edit</p>
+            </TooltipContent>
+          </Tooltip>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant={"ghost"} size={"icon"}>
+                <Info />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <div className="space-y-2">
+                <p>Created: {formatDate(template.created_at)}</p>
+                <p>Last updated: {formatDate(template.updated_at)}</p>
+              </div>
+            </PopoverContent>
+          </Popover>
+        </ButtonGroup>
 
         <DeleteTemplateButton id={id} showButton={true} />
       </footer>
